@@ -7,7 +7,7 @@ import retrofit2.http.Path
 interface MessageServerApi {
 
     @POST("messages/send")
-    suspend fun sendMessage()
+    suspend fun sendMessage(): MessageResponse
 
     @GET("messages/{conversationId}")
     suspend fun getMessages(@Path("conversationId") conversationId: Int): MessageResponse
@@ -24,14 +24,14 @@ interface MessageServerApi {
     @POST("groups/{groupId}/{userId}/remove_member")
     suspend fun removeMember(@Path("groupId") groupId: Int, @Path("userId") userId: Int): GroupResponse
 
-    @POST("groups/conversations/create")
-    suspend fun createConversation(): ConversationResponse
+    @POST("groups/{groupId}/create_conversation")
+    suspend fun createConversation(@Path("groupId") groupId: Int): ConversationResponse
+
+    @GET("groups/{groupId}/conversations")
+    suspend fun getConversationList(@Path("groupId") groupId: Int): ConversationResponse
 
     @GET("users/groups")
     suspend fun getGroupList(): GroupResponse
-
-    @GET("users/{groupId}/conversations")
-    suspend fun getConversationList(@Path("groupId") groupId: Int): ConversationResponse
 
     @POST("users/{userId}/add_friend")
     suspend fun addFriend(@Path("userId") userId: Int): UserResponse

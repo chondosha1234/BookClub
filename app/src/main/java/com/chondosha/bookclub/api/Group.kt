@@ -1,4 +1,8 @@
 package com.chondosha.bookclub.api
 
-class Group {
-}
+data class Group(
+    val id: String,
+    val name: String,
+    val conversationList: List<Conversation>,
+    val memberList: List<User>
+)

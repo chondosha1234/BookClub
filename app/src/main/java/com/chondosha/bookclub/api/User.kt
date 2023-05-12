@@ -1,9 +1,11 @@
 package com.chondosha.bookclub.api
 
+import java.util.UUID
+
 data class User(
-    val id: String,
+    val id: UUID,
     val email: String,
     val username: String,
-    val groupList: List<Group>,
-    val friendList: List<User>
+    val groups: List<Group>,
+    val friends: List<User>
 )

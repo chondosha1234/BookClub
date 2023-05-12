@@ -25,14 +25,30 @@ class UserRepository {
         }
     }
 
+    suspend fun createUser(email: String, username: String, password: String): Result<UserResponse> {
+        return try {
+            val response = messageServerApi.createUser(CreateAccountRequest(email, username, password))
+            if (response.isSuccessful) {
+                val userResponse = response.body()
+                if (userResponse != null) {
+                    Result.success(userResponse)
+                } else {
+                    Result.failure(Exception("Create user response body is null"))
+                }
+            } else {
+                Result.failure(Exception("Create user failed"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
     suspend fun logout(): Unit = messageServerApi.logout()
 
     suspend fun getCurrentUser(): List<User> = messageServerApi.getCurrentUser().users
 
     suspend fun getGroupList(): List<Group> = messageServerApi.getGroupList().groups
     // maybe unnecessary?
-
-    suspend fun createUser(): List<User> = messageServerApi.createUser().users
 
     suspend fun getFriendsList(): List<User> = messageServerApi.getFriendList().users
 

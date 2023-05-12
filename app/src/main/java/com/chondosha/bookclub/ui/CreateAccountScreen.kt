@@ -23,19 +23,20 @@ import com.chondosha.bookclub.viewmodels.LoginViewModel
 import com.chondosha.bookclub.viewmodels.LoginViewModelFactory
 
 @Composable
-fun LoginScreen(
+fun CreateAccountScreen(
     modifier: Modifier = Modifier,
-    onNavigateToHome: () -> Unit,
-    onNavigateToCreateAccount: () -> Unit
+    onNavigateToLogin: () -> Unit
 ) {
+
     val loginViewModel: LoginViewModel = viewModel(
         factory = LoginViewModelFactory(LocalUserRepository.current)
     )
 
+    val email = remember { mutableStateOf("") }
     val username = remember { mutableStateOf("") }
-    val password = remember { mutableStateOf("")}
+    val password = remember { mutableStateOf("") }
 
-    val loginResult = loginViewModel.loginResult.collectAsState()
+    val createResult = loginViewModel.createResult.collectAsState()
 
     Column(
         modifier = modifier,
@@ -64,31 +65,24 @@ fun LoginScreen(
         )
 
         Button(
-            onClick = { onNavigateToCreateAccount() },
-            modifier = Modifier
-                .align(Alignment.Start)
-                .padding(start = 16.dp)
-        ) {
-            Text(text = stringResource(R.string.signup))
-        }
-
-        Button(
-            onClick = { loginViewModel.login(username.value, password.value) },
+            onClick = {
+                loginViewModel.createAccount(email.value, username.value, password.value)
+            },
             modifier = Modifier
                 .align(Alignment.End)
                 .padding(end = 16.dp)
         ) {
-            Text(text = stringResource(R.string.login))
+            Text(text = stringResource(R.string.create_account))
         }
+    }
 
-        when (loginResult.value.isSuccess) {
-            true -> {
-                val userResponse = loginResult.value.getOrNull()  // maybe not needed if authenticated user collects info on home screen
-                onNavigateToHome()
-            }
-            false -> {
-                Text(text= "Login Failed")
-            }
+    when (createResult.value.isSuccess) {
+        true -> {
+            val userResponse = createResult.value.getOrNull()  // maybe not needed if authenticated user collects info on home screen
+            onNavigateToLogin()
+        }
+        false -> {
+            Text(text= "Create Account Failed")
         }
     }
 }

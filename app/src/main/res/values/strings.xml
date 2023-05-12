@@ -1,5 +1,12 @@
 <resources>
     <string name="app_name">BookClub</string>
 
+    <string name="username_label">Username</string>
+    <string name="password_label">Password</string>
+    <string name="login">Login</string>
+    <string name="signup">Sign up</string>
+    <string name="create_account">Create Account</string>
+
+    <string name="empty_group_list_text">You are not part of any groups yet.</string>
     <string name="group_name">%1$s</string>
 </resources>

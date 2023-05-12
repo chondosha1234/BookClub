@@ -12,8 +12,7 @@ import kotlinx.coroutines.launch
 import java.util.*
 
 class UserHomeViewModel(
-    private val repository: UserRepository,
-    userId: String?
+    private val repository: UserRepository
 ): ViewModel() {
 
     private val _user: MutableStateFlow<User?> = MutableStateFlow(null)
@@ -47,11 +46,10 @@ class UserHomeViewModel(
 }
 
 class UserHomeViewModelFactory(
-    private val repository: UserRepository,
-    private val userId: String?
+    private val repository: UserRepository
 ) : ViewModelProvider.Factory {
 
     override fun <T: ViewModel> create(modelClass: Class<T>): T {
-        return UserHomeViewModel(repository, userId) as T
+        return UserHomeViewModel(repository) as T
     }
 }

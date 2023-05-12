@@ -3,9 +3,12 @@ package com.chondosha.bookclub
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.chondosha.bookclub.ui.CreateAccountScreen
 import com.chondosha.bookclub.ui.LoginScreen
 import com.chondosha.bookclub.ui.UserHomeScreen
 
@@ -21,7 +24,21 @@ fun Navigation(
         startDestination = startDestination
     ) {
         composable("login"){
-            LoginScreen()
+            LoginScreen(
+                onNavigateToHome = {
+                    navController.navigate("user_home")
+                },
+                onNavigateToCreateAccount = {
+                    navController.navigate("create_account")
+                }
+            )
+        }
+        composable("create_account") {
+            CreateAccountScreen(
+                onNavigateToLogin = {
+                    navController.navigate("login")
+                }
+            )
         }
         composable("user_home") {
             UserHomeScreen()

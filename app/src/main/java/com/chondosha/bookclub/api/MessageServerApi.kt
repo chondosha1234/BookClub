@@ -41,6 +41,9 @@ interface MessageServerApi {
     @POST("login")
     suspend fun login(@Body loginRequest: LoginRequest): Response<UserResponse>
 
+    @POST("users/create_user")
+    suspend fun createUser(@Body createAccountRequest: CreateAccountRequest): Response<UserResponse>
+
     @POST("logout")
     suspend fun logout(): Unit
 
@@ -56,14 +59,17 @@ interface MessageServerApi {
     @GET("users/get_friends_list")
     suspend fun getFriendList(): UserResponse
 
-    @POST("users/create_user")
-    suspend fun createUser(): UserResponse
-
     @GET("users/get_current_user")
     suspend fun getCurrentUser(): UserResponse
 }
 
 data class LoginRequest(
+    @SerializedName("username") val username: String,
+    @SerializedName("password") val password: String
+)
+
+data class CreateAccountRequest(
+    @SerializedName("email") val email: String,
     @SerializedName("username") val username: String,
     @SerializedName("password") val password: String
 )

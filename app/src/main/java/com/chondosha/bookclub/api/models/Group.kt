@@ -1,4 +1,4 @@
-package com.chondosha.bookclub.api
+package com.chondosha.bookclub.api.models
 
 import java.util.UUID
 
@@ -7,5 +7,5 @@ data class Group(
     val name: String,
     val conversations: List<Conversation>,
     val members: List<User>,
-    val photoFileName: String? = null
+    val picture: String? = null
 )

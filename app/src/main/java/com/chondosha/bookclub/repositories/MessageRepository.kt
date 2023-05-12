@@ -1,6 +1,6 @@
 package com.chondosha.bookclub.repositories
 
-import com.chondosha.bookclub.api.Message
+import com.chondosha.bookclub.api.models.Message
 import com.chondosha.bookclub.api.MessageServerApi
 import java.util.UUID
 

@@ -1,6 +1,9 @@
 package com.chondosha.bookclub.repositories
 
 import com.chondosha.bookclub.api.*
+import com.chondosha.bookclub.api.models.Group
+import com.chondosha.bookclub.api.models.User
+import com.chondosha.bookclub.api.responses.UserResponse
 import java.util.UUID
 
 class UserRepository {

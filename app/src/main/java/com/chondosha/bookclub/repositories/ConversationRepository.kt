@@ -1,6 +1,6 @@
 package com.chondosha.bookclub.repositories
 
-import com.chondosha.bookclub.api.Conversation
+import com.chondosha.bookclub.api.models.Conversation
 import com.chondosha.bookclub.api.MessageServerApi
 import java.util.*
 

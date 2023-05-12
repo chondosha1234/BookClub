@@ -1,4 +1,4 @@
-package com.chondosha.bookclub.api
+package com.chondosha.bookclub.api.models
 
 import java.util.*
 

@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.chondosha.bookclub.api.models.Group
+import com.chondosha.bookclub.api.models.User
 import com.chondosha.bookclub.repositories.GroupRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -24,6 +25,10 @@ class GroupViewModel(
         viewModelScope.launch {
             _group.value = repository.getGroup(groupId)
         }
+    }
+
+    fun getMemberList(): List<User>? {
+        return _group.value?.members
     }
 }
 

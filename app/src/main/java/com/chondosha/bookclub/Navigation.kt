@@ -17,7 +17,7 @@ import com.chondosha.bookclub.ui.UserHomeScreen
 fun Navigation(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    startDestination: String = "login"
+    startDestination: String = "user_home"
 ) {
     NavHost(
         modifier = modifier,

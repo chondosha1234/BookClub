@@ -8,5 +8,10 @@
     <string name="create_account">Create Account</string>
 
     <string name="empty_group_list_text">You are not part of any groups yet.</string>
+    <string name="empty_conversations_list_text">You have not added any conversations yet.</string>
+    <string name="empty_friends_list_text">You have not added any friends yet.</string>
+    <string name="empty_members_list_text">You have not added any members yet.</string>
+
     <string name="group_name">%1$s</string>
+    <string name="conversation_title">%1$s</string>
 </resources>

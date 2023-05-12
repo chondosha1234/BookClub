@@ -17,28 +17,28 @@ import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import coil.compose.rememberAsyncImagePainter
 import com.chondosha.bookclub.R
-import com.chondosha.bookclub.api.models.Conversation
+import com.chondosha.bookclub.api.models.User
 import java.io.File
 
 @Composable
-fun ConversationCell(
-    conversation: Conversation,
+fun UserCell(
+    user: User,
     modifier: Modifier = Modifier,
     onClickCell: () -> Unit
 ) {
 
     val imagePainter = rememberAsyncImagePainter(
-        model = conversation.picture?.let {
+        model = user.picture?.let {
             File(LocalContext.current.filesDir, it).toUri()
         },
         placeholder = painterResource(R.drawable.ic_launcher_background)  // todo find image
     )
 
     Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier
-            .clickable { onClickCell() }
-            .padding(vertical = 4.dp, horizontal = 16.dp)
+    verticalAlignment = Alignment.CenterVertically,
+    modifier = modifier
+    .clickable { onClickCell() }
+    .padding(vertical = 4.dp, horizontal = 16.dp)
     ) {
         Image(
             painter = imagePainter,
@@ -49,9 +49,8 @@ fun ConversationCell(
             modifier = modifier.padding(8.dp)
         ) {
             Text(
-                text = stringResource(R.string.conversation_title, conversation.bookTitle),
+                text = stringResource(R.string.group_name, user.username),
             )
         }
     }
-
 }

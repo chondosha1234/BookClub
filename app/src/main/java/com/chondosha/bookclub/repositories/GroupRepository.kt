@@ -4,6 +4,7 @@ import com.chondosha.bookclub.api.Conversation
 import com.chondosha.bookclub.api.Group
 import com.chondosha.bookclub.api.MessageServerApi
 import com.chondosha.bookclub.api.User
+import java.util.*
 
 class GroupRepository {
 
@@ -13,9 +14,9 @@ class GroupRepository {
 
     suspend fun getGroupList(): List<Group> = messageServerApi.getGroupList().groups
 
-    suspend fun getMemberList(groupId: Int): List<User> = messageServerApi.getMemberList(groupId).users
+    suspend fun getMemberList(groupId: UUID): List<User> = messageServerApi.getMemberList(groupId).users
 
-    suspend fun addMember(groupId: Int, userId: Int): List<Group> = messageServerApi.addMember(groupId, userId).groups
+    suspend fun addMember(groupId: UUID, userId: UUID): List<Group> = messageServerApi.addMember(groupId, userId).groups
 
-    suspend fun removeMember(groupId: Int, userId: Int): List<Group> = messageServerApi.removeMember(groupId, userId).groups
+    suspend fun removeMember(groupId: UUID, userId: UUID): List<Group> = messageServerApi.removeMember(groupId, userId).groups
 }

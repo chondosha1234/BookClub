@@ -2,6 +2,7 @@ package com.chondosha.bookclub.repositories
 
 import com.chondosha.bookclub.api.Message
 import com.chondosha.bookclub.api.MessageServerApi
+import java.util.UUID
 
 class MessageRepository {
 
@@ -9,5 +10,5 @@ class MessageRepository {
 
     suspend fun sendMessage(): List<Message> = messageServerApi.sendMessage().messages
 
-    suspend fun getMessages(conversationId: Int): List<Message> = messageServerApi.getMessages(conversationId).messages
+    suspend fun getMessages(conversationId: UUID): List<Message> = messageServerApi.getMessages(conversationId).messages
 }

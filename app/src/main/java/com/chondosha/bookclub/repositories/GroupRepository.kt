@@ -6,6 +6,7 @@ import com.chondosha.bookclub.api.MessageServerApi
 import com.chondosha.bookclub.api.User
 
 class GroupRepository {
+
     private var messageServerApi: MessageServerApi = ApiServiceFactory.createMessageServerApi()
 
     suspend fun createGroup(): List<Group> = messageServerApi.createGroup().groups

@@ -4,6 +4,7 @@ import com.chondosha.bookclub.api.Conversation
 import com.chondosha.bookclub.api.MessageServerApi
 
 class ConversationRepository {
+
     private var messageServerApi: MessageServerApi = ApiServiceFactory.createMessageServerApi()
 
     suspend fun createConversation(groupId: Int): List<Conversation> = messageServerApi.createConversation(groupId).conversations

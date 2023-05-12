@@ -69,7 +69,7 @@ fun CreateAccountScreen(
                 loginViewModel.createAccount(email.value, username.value, password.value)
             },
             modifier = Modifier
-                .align(Alignment.End)
+                .align(Alignment.CenterHorizontally)
                 .padding(end = 16.dp)
         ) {
             Text(text = stringResource(R.string.create_account))

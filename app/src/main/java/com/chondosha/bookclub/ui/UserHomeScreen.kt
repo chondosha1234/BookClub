@@ -17,10 +17,12 @@ import com.chondosha.bookclub.LocalUserRepository
 import com.chondosha.bookclub.R
 import com.chondosha.bookclub.viewmodels.UserHomeViewModel
 import com.chondosha.bookclub.viewmodels.UserHomeViewModelFactory
+import java.util.*
 
 @Composable
 fun UserHomeScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onNavigateToGroup: (groupId: UUID) -> Unit
 ){
     val userHomeViewModel : UserHomeViewModel = viewModel(
         factory = UserHomeViewModelFactory(LocalUserRepository.current)
@@ -52,7 +54,7 @@ fun UserHomeScreen(
                         items(groups) { group ->
                             GroupCell(
                                 group = group,
-                                onClickCell = {}
+                                onClickCell = { onNavigateToGroup(group.id) }
                             )
                         }
                     }

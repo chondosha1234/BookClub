@@ -1,12 +1,9 @@
 package com.chondosha.bookclub.viewmodels
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.chondosha.bookclub.api.CreateAccountRequest
-import com.chondosha.bookclub.api.UserResponse
+import com.chondosha.bookclub.api.responses.UserResponse
 import com.chondosha.bookclub.repositories.UserRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

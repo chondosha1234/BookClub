@@ -3,7 +3,7 @@ package com.chondosha.bookclub.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.chondosha.bookclub.api.User
+import com.chondosha.bookclub.api.models.User
 import com.chondosha.bookclub.repositories.UserRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

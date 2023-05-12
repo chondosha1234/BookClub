@@ -17,19 +17,18 @@ import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import coil.compose.rememberAsyncImagePainter
 import com.chondosha.bookclub.R
-import com.chondosha.bookclub.api.models.Group
+import com.chondosha.bookclub.api.models.Conversation
 import java.io.File
 
-
 @Composable
-fun GroupCell(
-    group: Group,
+fun ConversationCell(
+    conversation: Conversation,
     modifier: Modifier = Modifier,
     onClickCell: () -> Unit
 ) {
 
     val imagePainter = rememberAsyncImagePainter(
-        model = group.picture?.let {
+        model = conversation.picture?.let {
             File(LocalContext.current.filesDir, it).toUri()
         },
         placeholder = painterResource(R.drawable.ic_launcher_background)  // todo find image
@@ -50,8 +49,9 @@ fun GroupCell(
             modifier = modifier.padding(8.dp)
         ) {
             Text(
-                text = stringResource(R.string.group_name, group.name),
+                text = stringResource(R.string.group_name, conversation.bookTitle),
             )
         }
     }
+
 }

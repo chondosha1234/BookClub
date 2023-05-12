@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.chondosha.bookclub.ui.CreateAccountScreen
+import com.chondosha.bookclub.ui.GroupScreen
 import com.chondosha.bookclub.ui.LoginScreen
 import com.chondosha.bookclub.ui.UserHomeScreen
 
@@ -41,7 +42,20 @@ fun Navigation(
             )
         }
         composable("user_home") {
-            UserHomeScreen()
+            UserHomeScreen(
+                onNavigateToGroup = { groupId ->
+                    navController.navigate("group/${groupId}")
+                }
+            )
+        }
+        composable(
+            "group/{groupId}",
+            arguments = listOf(navArgument("groupId") {type = NavType.StringType} )
+        ) { backStackEntry ->
+            GroupScreen(
+                modifier = Modifier,
+                groupId = backStackEntry.arguments?.getString("groupId")
+            )
         }
     }
 }

@@ -1,9 +1,6 @@
 package com.chondosha.bookclub.ui
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
@@ -62,23 +59,26 @@ fun LoginScreen(
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
         )
-
-        Button(
-            onClick = { onNavigateToCreateAccount() },
-            modifier = Modifier
-                .align(Alignment.Start)
-                .padding(start = 16.dp)
+        Row(
+            modifier = modifier,
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(text = stringResource(R.string.signup))
-        }
+            Button(
+                onClick = { onNavigateToCreateAccount() },
+                modifier = Modifier
+                    .padding(start = 16.dp)
+            ) {
+                Text(text = stringResource(R.string.signup))
+            }
 
-        Button(
-            onClick = { loginViewModel.login(username.value, password.value) },
-            modifier = Modifier
-                .align(Alignment.End)
-                .padding(end = 16.dp)
-        ) {
-            Text(text = stringResource(R.string.login))
+            Button(
+                onClick = { loginViewModel.login(username.value, password.value) },
+                modifier = Modifier
+                    .padding(end = 16.dp)
+            ) {
+                Text(text = stringResource(R.string.login))
+            }
         }
 
         when (loginResult.value.isSuccess) {

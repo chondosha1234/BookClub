@@ -1,9 +1,8 @@
 package com.chondosha.bookclub.repositories
 
-import com.chondosha.bookclub.api.Conversation
-import com.chondosha.bookclub.api.Group
+import com.chondosha.bookclub.api.models.Group
 import com.chondosha.bookclub.api.MessageServerApi
-import com.chondosha.bookclub.api.User
+import com.chondosha.bookclub.api.models.User
 import java.util.*
 
 class GroupRepository {
@@ -11,6 +10,8 @@ class GroupRepository {
     private var messageServerApi: MessageServerApi = ApiServiceFactory.createMessageServerApi()
 
     suspend fun createGroup(): List<Group> = messageServerApi.createGroup().groups
+
+    suspend fun getGroup(groupId: UUID): Group = messageServerApi.getGroup(groupId).groups[0]
 
     suspend fun getGroupList(): List<Group> = messageServerApi.getGroupList().groups
 

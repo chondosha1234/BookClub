@@ -1,5 +1,11 @@
 package com.chondosha.bookclub.api
 
+import com.chondosha.bookclub.api.models.CreateAccountRequest
+import com.chondosha.bookclub.api.models.LoginRequest
+import com.chondosha.bookclub.api.responses.ConversationResponse
+import com.chondosha.bookclub.api.responses.GroupResponse
+import com.chondosha.bookclub.api.responses.MessageResponse
+import com.chondosha.bookclub.api.responses.UserResponse
 import com.google.gson.annotations.SerializedName
 import retrofit2.Response
 
@@ -20,6 +26,9 @@ interface MessageServerApi {
 
     @POST("groups/create")
     suspend fun createGroup(): GroupResponse
+
+    @GET("groups/{groupId}/get_group")
+    suspend fun getGroup(@Path("groupId") groupId: UUID): GroupResponse
 
     @GET("groups/{groupId}/get_member_list")
     suspend fun getMemberList(@Path("groupId") groupId: UUID): UserResponse
@@ -62,14 +71,3 @@ interface MessageServerApi {
     @GET("users/get_current_user")
     suspend fun getCurrentUser(): UserResponse
 }
-
-data class LoginRequest(
-    @SerializedName("username") val username: String,
-    @SerializedName("password") val password: String
-)
-
-data class CreateAccountRequest(
-    @SerializedName("email") val email: String,
-    @SerializedName("username") val username: String,
-    @SerializedName("password") val password: String
-)

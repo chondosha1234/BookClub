@@ -2,13 +2,17 @@ package com.chondosha.bookclub.repositories
 
 import com.chondosha.bookclub.api.models.Conversation
 import com.chondosha.bookclub.api.MessageServerApi
+import com.chondosha.bookclub.api.models.Message
+import com.chondosha.bookclub.api.responses.MessageResponse
 import java.util.*
 
 class ConversationRepository {
 
     private var messageServerApi: MessageServerApi = ApiServiceFactory.createMessageServerApi()
 
-    suspend fun createConversation(groupId: UUID): List<Conversation> = messageServerApi.createConversation(groupId).conversations
+    suspend fun getConversation(conversationId: UUID): List<Conversation> = messageServerApi.getConversation(conversationId).conversations
 
-    suspend fun getConversationList(groupId: UUID): List<Conversation> = messageServerApi.getConversationList(groupId).conversations
+    suspend fun getMessages(conversationId: UUID): List<Message> = messageServerApi.getMessages(conversationId).messages
+
+    suspend fun sendMessage(): MessageResponse = messageServerApi.sendMessage()
 }

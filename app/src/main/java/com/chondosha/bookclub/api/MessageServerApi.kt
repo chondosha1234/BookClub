@@ -33,6 +33,9 @@ interface MessageServerApi {
     @GET("groups/{groupId}/get_member_list")
     suspend fun getMemberList(@Path("groupId") groupId: UUID): UserResponse
 
+    @POST("groups/{groupId}/set_picture")
+    suspend fun setGroupPicture(@Path("groupId") groupId: UUID)
+
     @POST("groups/{groupId}/{userId}/add_member")
     suspend fun addMember(@Path("groupId") groupId: UUID, @Path("userId") userId: UUID): GroupResponse
 
@@ -43,18 +46,30 @@ interface MessageServerApi {
     @POST("groups/{groupId}/create_conversation")
     suspend fun createConversation(@Path("groupId") groupId: UUID): ConversationResponse
 
+    @GET("groups/conversation/{conversationId}")
+    suspend fun getConversation(@Path("conversationId") conversationId: UUID): ConversationResponse
+
     @GET("groups/{groupId}/conversations")
     suspend fun getConversationList(@Path("groupId") groupId: UUID): ConversationResponse
+
+    @POST("groups/conversation/{conversationId}/set_picture")
+    suspend fun setConversationPicture(@Path("conversationId") conversationId: UUID)
 
 
     @POST("login")
     suspend fun login(@Body loginRequest: LoginRequest): Response<UserResponse>
 
+    @POST("logout")
+    suspend fun logout()
+
     @POST("users/create_user")
     suspend fun createUser(@Body createAccountRequest: CreateAccountRequest): Response<UserResponse>
 
-    @POST("logout")
-    suspend fun logout(): Unit
+    @GET("users/get_current_user")
+    suspend fun getCurrentUser(): UserResponse
+
+    @POST("users/set_picture")
+    suspend fun setProfilePicture()
 
     @GET("users/groups")
     suspend fun getGroupList(): GroupResponse
@@ -68,6 +83,4 @@ interface MessageServerApi {
     @GET("users/get_friends_list")
     suspend fun getFriendList(): UserResponse
 
-    @GET("users/get_current_user")
-    suspend fun getCurrentUser(): UserResponse
 }

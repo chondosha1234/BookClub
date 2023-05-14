@@ -1,5 +1,7 @@
 package com.chondosha.bookclub.ui
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -15,6 +17,7 @@ import com.chondosha.bookclub.api.models.Group
 import com.chondosha.bookclub.api.models.User
 import com.chondosha.bookclub.viewmodels.UserHomeViewModel
 import com.chondosha.bookclub.viewmodels.UserHomeViewModelFactory
+import kotlinx.coroutines.launch
 import java.util.*
 
 @Composable
@@ -26,9 +29,11 @@ fun UserHomeScreen(
         factory = UserHomeViewModelFactory(LocalUserRepository.current)
     )
 
+    val coroutineScope = rememberCoroutineScope()
+
     val user by userHomeViewModel.user.collectAsState()
-    val groups = user?.groups
-    val friends = user?.friends
+    val groups by userHomeViewModel.groups.collectAsState()
+    val friends by userHomeViewModel.friends.collectAsState()
 
     val selectedItem = remember { mutableStateOf(0)}
 
@@ -37,6 +42,9 @@ fun UserHomeScreen(
         topBar = {
             TopAppBar(
                 title = { Text(text = stringResource(R.string.app_name)) },
+                actions = {
+                    OptionsMenu()
+                }
             )
         },
         bottomBar = {
@@ -57,15 +65,38 @@ fun UserHomeScreen(
         }
     ) { innerPadding ->
         when (selectedItem.value) {
-            0 -> GroupList(
-                groups = groups,
-                onNavigateToGroup = onNavigateToGroup,
-                modifier = Modifier.padding(innerPadding)
-            )
-            1 -> FriendList(
-                friends = friends,
-                modifier = Modifier.padding(innerPadding)
-            )
+            0 -> Column {
+                GroupList(
+                    groups = groups,
+                    onNavigateToGroup = onNavigateToGroup,
+                    modifier = Modifier
+                        .padding(innerPadding)
+                        .fillMaxWidth()
+                        .weight(1f, fill = true)
+                )
+
+                Button(
+                    onClick = {}
+                ){
+                    Text(text = stringResource(R.string.add_group))
+                }
+            }
+            1 -> Column {
+                FriendList(
+                    friends = friends,
+                    modifier = Modifier
+                        .padding(innerPadding)
+                        .fillMaxWidth()
+                        .weight(1f, fill = true)
+                )
+                Button(
+                    onClick = {
+                        // launch dialog or screen?
+                    }
+                ){
+                    Text(text = stringResource(R.string.add_friend))
+                }
+            }
         }
     }
 }
@@ -111,7 +142,7 @@ fun FriendList(
             if (friends.isEmpty()) {
                 item {
                     Text(
-                        text = stringResource(R.string.empty_group_list_text),
+                        text = stringResource(R.string.empty_friends_list_text),
                         textAlign = TextAlign.Center
                     )
                 }

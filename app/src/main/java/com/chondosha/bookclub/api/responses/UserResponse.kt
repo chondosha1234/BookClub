@@ -5,11 +5,19 @@ import com.google.gson.Gson
 import com.google.gson.JsonElement
 import com.google.gson.reflect.TypeToken
 import com.squareup.moshi.FromJson
+import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
+data class UserResponse(
+    @Json val users: List<User>
+)
+
+/*
+@JsonClass(generateAdapter = true)
 class UserResponse {
     var users: List<User> = emptyList()
+
 
     @FromJson
     fun fromJson(response: JsonElement): UserResponse {
@@ -26,3 +34,5 @@ class UserResponse {
         return userResponse
     }
 }
+
+ */

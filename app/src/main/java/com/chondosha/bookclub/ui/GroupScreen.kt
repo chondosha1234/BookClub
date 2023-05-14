@@ -17,10 +17,11 @@ import com.chondosha.bookclub.viewmodels.GroupViewModel
 import com.chondosha.bookclub.viewmodels.GroupViewModelFactory
 
 
+
 @Composable
 fun GroupScreen(
+    groupId: String?,
     modifier: Modifier = Modifier,
-    groupId: String?
 ) {
 
     val groupViewModel : GroupViewModel = viewModel(
@@ -28,8 +29,8 @@ fun GroupScreen(
     )
 
     val group by groupViewModel.group.collectAsState()
-    val conversations = group?.conversations
-    val members = group?.members
+    val conversations by groupViewModel.conversations.collectAsState()
+    val members by groupViewModel.members.collectAsState()
 
     val selectedItem = remember { mutableStateOf(0) }
 
@@ -38,6 +39,9 @@ fun GroupScreen(
         topBar = {
             TopAppBar(
                 title = { Text(text = stringResource(R.string.app_name)) },
+                actions = {
+                    OptionsMenu()
+                }
             )
         },
         bottomBar = {

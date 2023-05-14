@@ -57,6 +57,8 @@ class UserRepository {
 
     suspend fun getFriendsList(): List<User> = messageServerApi.getFriendList().users
 
+    suspend fun createGroup(): List<Group> = messageServerApi.createGroup().groups
+
     suspend fun addFriend(userId: UUID): List<User> = messageServerApi.addFriend(userId).users
 
     suspend fun removeFriend(userId:UUID): List<User> = messageServerApi.removeFriend(userId).users

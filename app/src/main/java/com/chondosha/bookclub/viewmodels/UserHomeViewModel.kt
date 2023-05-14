@@ -1,8 +1,10 @@
 package com.chondosha.bookclub.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.chondosha.bookclub.api.models.Group
 import com.chondosha.bookclub.api.models.User
 import com.chondosha.bookclub.repositories.UserRepository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,18 +20,22 @@ class UserHomeViewModel(
     private val _user: MutableStateFlow<User?> = MutableStateFlow(null)
     val user: StateFlow<User?> = _user.asStateFlow()
 
+    private val _groups: MutableStateFlow<List<Group>?> = MutableStateFlow(null)
+    val groups: StateFlow<List<Group>?> = _groups.asStateFlow()
+
+    private val _friends: MutableStateFlow<List<User>?> = MutableStateFlow(null)
+    val friends: StateFlow<List<User>?> = _friends.asStateFlow()
+
     init {
         viewModelScope.launch {
             _user.value = repository.getCurrentUser()[0]
+            _groups.value = repository.getGroupList()
+            _friends.value = repository.getFriendsList()
         }
     }
 
-    suspend fun getGroupList() {
-        repository.getGroupList()
-    }
-
-    suspend fun getFriendsList() {
-        repository.getFriendsList()
+    suspend fun createGroup() {
+        repository.createGroup()
     }
 
     suspend fun addFriend(userId: UUID) {

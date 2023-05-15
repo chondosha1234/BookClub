@@ -8,21 +8,6 @@ import com.squareup.moshi.FromJson
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-class GroupResponse {
-    var groups: List<Group> = emptyList()
-
-    @FromJson
-    fun fromJson(response: JsonElement): GroupResponse {
-        val groupResponse = GroupResponse()
-
-        if (response.isJsonObject) {
-            val group = Gson().fromJson(response, Group::class.java)
-            groupResponse.groups = listOf(group)
-        } else if (response.isJsonArray) {
-            val groupList = Gson().fromJson<List<Group>>(response, object : TypeToken<List<Group>>() {}.type)
-            groupResponse.groups = groupList
-        }
-
-        return groupResponse
-    }
-}
+data class GroupResponse (
+    val groups: List<Group>
+)

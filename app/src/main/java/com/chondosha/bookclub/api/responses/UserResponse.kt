@@ -10,29 +10,5 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class UserResponse(
-    @Json val users: List<User>
+    val users: List<User>
 )
-
-/*
-@JsonClass(generateAdapter = true)
-class UserResponse {
-    var users: List<User> = emptyList()
-
-
-    @FromJson
-    fun fromJson(response: JsonElement): UserResponse {
-        val userResponse = UserResponse()
-
-        if (response.isJsonObject) {
-            val user = Gson().fromJson(response, User::class.java)
-            userResponse.users = listOf(user)
-        } else if (response.isJsonArray) {
-            val userList = Gson().fromJson<List<User>>(response, object : TypeToken<List<User>>() {}.type)
-            userResponse.users = userList
-        }
-
-        return userResponse
-    }
-}
-
- */

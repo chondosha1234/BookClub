@@ -1,5 +1,6 @@
 package com.chondosha.bookclub.ui
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Text
@@ -10,6 +11,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
@@ -30,9 +32,12 @@ fun LoginScreen(
     )
 
     val username = remember { mutableStateOf("") }
-    val password = remember { mutableStateOf("")}
+    val password = remember { mutableStateOf("") }
+    val loginAttempted = remember { mutableStateOf(false) }
 
     val loginResult = loginViewModel.loginResult.collectAsState()
+
+    val context = LocalContext.current
 
     Column(
         modifier = modifier,
@@ -43,7 +48,10 @@ fun LoginScreen(
 
         TextField(
             value = username.value,
-            onValueChange = { username.value = it },
+            onValueChange = {
+                username.value = it
+                loginAttempted.value = false
+            },
             label = { Text(text = stringResource(R.string.username_label)) },
             modifier = Modifier
                 .fillMaxWidth()
@@ -52,7 +60,10 @@ fun LoginScreen(
 
         TextField(
             value = password.value,
-            onValueChange = { password.value = it },
+            onValueChange = {
+                password.value = it
+                loginAttempted.value = false
+            },
             label = { Text(text = stringResource(R.string.password_label)) },
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier
@@ -73,7 +84,10 @@ fun LoginScreen(
             }
 
             Button(
-                onClick = { loginViewModel.login(username.value, password.value) },
+                onClick = {
+                    loginViewModel.login(username.value, password.value)
+                    loginAttempted.value = true
+                },
                 modifier = Modifier
                     .padding(end = 16.dp)
             ) {
@@ -87,7 +101,11 @@ fun LoginScreen(
                 onNavigateToHome()
             }
             false -> {
-                Text(text= "Login Failed") //make a toast
+                if (loginAttempted.value) {
+                    username.value = ""
+                    password.value = ""
+                    Toast.makeText(context, R.string.login_failed, Toast.LENGTH_LONG).show()
+                }
             }
         }
     }

@@ -13,3 +13,7 @@ data class CreateAccountRequest(
     @SerializedName("username") val username: String,
     @SerializedName("password") val password: String
 )
+
+data class FcmTokenRequest(
+    @SerializedName("fcm_token") val token: String
+)

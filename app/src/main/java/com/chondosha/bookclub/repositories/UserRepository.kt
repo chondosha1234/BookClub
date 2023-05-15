@@ -1,11 +1,10 @@
 package com.chondosha.bookclub.repositories
 
 import com.chondosha.bookclub.api.*
-import com.chondosha.bookclub.api.models.CreateAccountRequest
-import com.chondosha.bookclub.api.models.Group
-import com.chondosha.bookclub.api.models.LoginRequest
-import com.chondosha.bookclub.api.models.User
+import com.chondosha.bookclub.api.models.*
 import com.chondosha.bookclub.api.responses.UserResponse
+import com.google.firebase.messaging.FirebaseMessaging
+import kotlinx.coroutines.tasks.await
 import java.util.UUID
 
 class UserRepository {
@@ -18,6 +17,7 @@ class UserRepository {
             if (response.isSuccessful) {
                 val userResponse = response.body()
                 if (userResponse != null) {
+                    setFcmToken()
                     Result.success(userResponse)
                 } else {
                     Result.failure(Exception("Login response body is null"))
@@ -30,7 +30,10 @@ class UserRepository {
         }
     }
 
-    suspend fun setFcmToken() = messageServerApi.setFcmToken()
+    private suspend fun setFcmToken() {
+        val token = FirebaseMessaging.getInstance().token.await()
+        messageServerApi.setFcmToken(FcmTokenRequest(token))
+    }
 
     suspend fun createUser(email: String, username: String, password: String): Result<UserResponse> {
         return try {

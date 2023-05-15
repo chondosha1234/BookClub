@@ -1,6 +1,7 @@
 package com.chondosha.bookclub.api
 
 import com.chondosha.bookclub.api.models.CreateAccountRequest
+import com.chondosha.bookclub.api.models.FcmTokenRequest
 import com.chondosha.bookclub.api.models.LoginRequest
 import com.chondosha.bookclub.api.responses.ConversationResponse
 import com.chondosha.bookclub.api.responses.GroupResponse
@@ -60,7 +61,7 @@ interface MessageServerApi {
     suspend fun login(@Body loginRequest: LoginRequest): Response<UserResponse>
 
     @POST("users/set_fcm_token")
-    suspend fun setFcmToken()
+    suspend fun setFcmToken(@Body request: FcmTokenRequest): UserResponse
 
     @POST("logout")
     suspend fun logout()

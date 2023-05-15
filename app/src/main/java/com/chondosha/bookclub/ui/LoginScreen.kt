@@ -87,7 +87,7 @@ fun LoginScreen(
                 onNavigateToHome()
             }
             false -> {
-                Text(text= "Login Failed")
+                Text(text= "Login Failed") //make a toast
             }
         }
     }

@@ -55,7 +55,7 @@ class UserRepository {
 
     suspend fun logout(): Unit = messageServerApi.logout()
 
-    suspend fun getCurrentUser(): List<User> = messageServerApi.getCurrentUser().users
+    suspend fun getCurrentUser(): User = messageServerApi.getCurrentUser().users[0]
 
     suspend fun getGroupList(): List<Group> = messageServerApi.getGroupList().groups
     // maybe unnecessary?

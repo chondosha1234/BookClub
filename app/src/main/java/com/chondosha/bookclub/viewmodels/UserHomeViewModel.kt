@@ -28,7 +28,7 @@ class UserHomeViewModel(
 
     init {
         viewModelScope.launch {
-            _user.value = repository.getCurrentUser()[0]
+            _user.value = repository.getCurrentUser()
             _groups.value = repository.getGroupList()
             _friends.value = repository.getFriendsList()
         }

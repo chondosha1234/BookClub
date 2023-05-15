@@ -5,8 +5,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.chondosha.bookclub.api.models.Conversation
 import com.chondosha.bookclub.api.models.Message
+import com.chondosha.bookclub.api.models.User
 import com.chondosha.bookclub.repositories.ConversationRepository
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.util.*
@@ -17,6 +19,9 @@ class ConversationViewModel(
     conversationIdString: String?
 ): ViewModel() {
 
+    private val _user: MutableStateFlow<User?> = MutableStateFlow(null)
+    val user: StateFlow<User?> = _user.asStateFlow()
+
     private val _conversation: MutableStateFlow<Conversation?> = MutableStateFlow(null)
     val conversation = _conversation.asStateFlow()
 
@@ -26,13 +31,14 @@ class ConversationViewModel(
     init{
         val conversationId = UUID.fromString(conversationIdString)
         viewModelScope.launch {
+            _user.value = repository.getCurrentUser()
             _conversation.value = repository.getConversation(conversationId)[0]
             _messages.value = repository.getMessages(conversationId)
         }
     }
 
-    suspend fun sendMessage() {
-        _messages.value = repository.sendMessage()
+    suspend fun sendMessage(text: String) {
+        _messages.value = repository.sendMessage(user.value?.id, conversation.value?.id, text)
     }
 
     suspend fun setConversationPicture(conversationId: UUID) {

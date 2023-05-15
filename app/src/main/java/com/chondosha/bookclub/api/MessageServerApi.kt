@@ -3,6 +3,7 @@ package com.chondosha.bookclub.api
 import com.chondosha.bookclub.api.models.CreateAccountRequest
 import com.chondosha.bookclub.api.models.FcmTokenRequest
 import com.chondosha.bookclub.api.models.LoginRequest
+import com.chondosha.bookclub.api.models.SendMessageRequest
 import com.chondosha.bookclub.api.responses.ConversationResponse
 import com.chondosha.bookclub.api.responses.GroupResponse
 import com.chondosha.bookclub.api.responses.MessageResponse
@@ -19,7 +20,7 @@ import java.util.*
 interface MessageServerApi {
 
     @POST("messages/send")
-    suspend fun sendMessage(): MessageResponse
+    suspend fun sendMessage(@Body request: SendMessageRequest): MessageResponse
 
     @GET("messages/{conversationId}")
     suspend fun getMessages(@Path("conversationId") conversationId: UUID): MessageResponse

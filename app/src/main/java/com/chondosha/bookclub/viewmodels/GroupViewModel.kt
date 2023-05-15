@@ -36,12 +36,20 @@ class GroupViewModel(
         }
     }
 
+    suspend fun createConversation(groupId: UUID) {
+        _conversations.value = repository.createConversation(groupId)
+    }
+
     suspend fun addMember(groupId: UUID, userId: UUID) {
-        repository.addMember(groupId, userId)
+        _group.value = repository.addMember(groupId, userId)
     }
 
     suspend fun removeMember(groupId: UUID, userId: UUID) {
-        repository.removeMember(groupId, userId)
+        _group.value = repository.removeMember(groupId, userId)
+    }
+
+    suspend fun setGroupPicture(groupId: UUID) {
+        _group.value = repository.setGroupPicture(groupId)
     }
 }
 

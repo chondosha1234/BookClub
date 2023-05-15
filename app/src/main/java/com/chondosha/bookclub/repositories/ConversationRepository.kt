@@ -14,5 +14,7 @@ class ConversationRepository {
 
     suspend fun getMessages(conversationId: UUID): List<Message> = messageServerApi.getMessages(conversationId).messages
 
-    suspend fun sendMessage(): MessageResponse = messageServerApi.sendMessage()
+    suspend fun sendMessage(): List<Message> = messageServerApi.sendMessage().messages
+
+    suspend fun setConversationPicture(conversationId: UUID): Conversation = messageServerApi.setConversationPicture(conversationId).conversations[0]
 }

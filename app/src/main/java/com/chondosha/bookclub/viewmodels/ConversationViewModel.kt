@@ -30,6 +30,14 @@ class ConversationViewModel(
             _messages.value = repository.getMessages(conversationId)
         }
     }
+
+    suspend fun sendMessage() {
+        _messages.value = repository.sendMessage()
+    }
+
+    suspend fun setConversationPicture(conversationId: UUID) {
+        _conversation.value = repository.setConversationPicture(conversationId)
+    }
 }
 
 class ConversationViewModelFactory(

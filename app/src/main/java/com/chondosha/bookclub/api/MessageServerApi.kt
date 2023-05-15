@@ -34,7 +34,7 @@ interface MessageServerApi {
     suspend fun getMemberList(@Path("groupId") groupId: UUID): UserResponse
 
     @POST("groups/{groupId}/set_picture")
-    suspend fun setGroupPicture(@Path("groupId") groupId: UUID)
+    suspend fun setGroupPicture(@Path("groupId") groupId: UUID): GroupResponse
 
     @POST("groups/{groupId}/{userId}/add_member")
     suspend fun addMember(@Path("groupId") groupId: UUID, @Path("userId") userId: UUID): GroupResponse
@@ -53,11 +53,14 @@ interface MessageServerApi {
     suspend fun getConversationList(@Path("groupId") groupId: UUID): ConversationResponse
 
     @POST("groups/conversation/{conversationId}/set_picture")
-    suspend fun setConversationPicture(@Path("conversationId") conversationId: UUID)
+    suspend fun setConversationPicture(@Path("conversationId") conversationId: UUID): ConversationResponse
 
 
     @POST("login")
     suspend fun login(@Body loginRequest: LoginRequest): Response<UserResponse>
+
+    @POST("users/set_fcm_token")
+    suspend fun setFcmToken()
 
     @POST("logout")
     suspend fun logout()
@@ -69,7 +72,7 @@ interface MessageServerApi {
     suspend fun getCurrentUser(): UserResponse
 
     @POST("users/set_picture")
-    suspend fun setProfilePicture()
+    suspend fun setProfilePicture(): UserResponse
 
     @GET("users/groups")
     suspend fun getGroupList(): GroupResponse

@@ -35,15 +35,19 @@ class UserHomeViewModel(
     }
 
     suspend fun createGroup() {
-        repository.createGroup()
+        _groups.value = repository.createGroup()
     }
 
     suspend fun addFriend(userId: UUID) {
-        repository.addFriend(userId)
+        _friends.value = repository.addFriend(userId)
     }
 
     suspend fun removeFriend(userId: UUID) {
-        repository.removeFriend(userId)
+        _friends.value = repository.removeFriend(userId)
+    }
+
+    suspend fun setProfilePicture() {
+        _user.value = repository.setProfilePicture().users[0]
     }
 
     suspend fun logout() {

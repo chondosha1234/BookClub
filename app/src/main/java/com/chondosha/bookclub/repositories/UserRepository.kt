@@ -30,6 +30,8 @@ class UserRepository {
         }
     }
 
+    suspend fun setFcmToken() = messageServerApi.setFcmToken()
+
     suspend fun createUser(email: String, username: String, password: String): Result<UserResponse> {
         return try {
             val response = messageServerApi.createUser(CreateAccountRequest(email, username, password))
@@ -62,5 +64,7 @@ class UserRepository {
     suspend fun addFriend(userId: UUID): List<User> = messageServerApi.addFriend(userId).users
 
     suspend fun removeFriend(userId:UUID): List<User> = messageServerApi.removeFriend(userId).users
+
+    suspend fun setProfilePicture() = messageServerApi.setProfilePicture()
 
 }

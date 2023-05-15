@@ -18,7 +18,9 @@ class GroupRepository {
 
     suspend fun getConversationList(groupId: UUID): List<Conversation> = messageServerApi.getConversationList(groupId).conversations
 
-    suspend fun addMember(groupId: UUID, userId: UUID): List<Group> = messageServerApi.addMember(groupId, userId).groups
+    suspend fun addMember(groupId: UUID, userId: UUID): Group = messageServerApi.addMember(groupId, userId).groups[0]
 
-    suspend fun removeMember(groupId: UUID, userId: UUID): List<Group> = messageServerApi.removeMember(groupId, userId).groups
+    suspend fun removeMember(groupId: UUID, userId: UUID): Group = messageServerApi.removeMember(groupId, userId).groups[0]
+
+    suspend fun setGroupPicture(groupId: UUID): Group = messageServerApi.setGroupPicture(groupId).groups[0]
 }

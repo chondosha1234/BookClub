@@ -4,11 +4,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.rememberNavController
 import com.chondosha.bookclub.LocalGroupRepository
 import com.chondosha.bookclub.R
 import com.chondosha.bookclub.api.models.Conversation
@@ -30,6 +33,8 @@ fun GroupScreen(
         factory = GroupViewModelFactory(LocalGroupRepository.current, groupId)
     )
 
+    val navController = rememberNavController()
+
     val group by groupViewModel.group.collectAsState()
     val conversations by groupViewModel.conversations.collectAsState()
     val members by groupViewModel.members.collectAsState()
@@ -41,6 +46,17 @@ fun GroupScreen(
         topBar = {
             TopAppBar(
                 title = { Text(text = stringResource(R.string.app_name)) },
+                navigationIcon = if (navController.previousBackStackEntry != null) {
+                    {
+                        IconButton(
+                            onClick = { navController.navigateUp() }
+                        ) {
+                            Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
+                        }
+                    }
+                } else {
+                    null
+                },
                 actions = {
                     OptionsMenu()
                 }

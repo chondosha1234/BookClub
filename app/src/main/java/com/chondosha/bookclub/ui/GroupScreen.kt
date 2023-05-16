@@ -15,13 +15,14 @@ import com.chondosha.bookclub.api.models.Conversation
 import com.chondosha.bookclub.api.models.User
 import com.chondosha.bookclub.viewmodels.GroupViewModel
 import com.chondosha.bookclub.viewmodels.GroupViewModelFactory
-
+import java.util.*
 
 
 @Composable
 fun GroupScreen(
     groupId: String?,
     modifier: Modifier = Modifier,
+    onNavigateToConversation: (conversationId: UUID) -> Unit
 ) {
 
     val groupViewModel : GroupViewModel = viewModel(
@@ -64,7 +65,8 @@ fun GroupScreen(
         when (selectedItem.value) {
             0 -> ConversationList(
                 conversations = conversations,
-                modifier = Modifier.padding(innerPadding)
+                modifier = Modifier.padding(innerPadding),
+                onNavigateToConversation = onNavigateToConversation
             )
             1 -> MemberList(
                 members = members,
@@ -77,7 +79,8 @@ fun GroupScreen(
 @Composable
 fun ConversationList(
     conversations: List<Conversation>?,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onNavigateToConversation: (conversationId: UUID) -> Unit
 ) {
     LazyColumn(
         modifier = modifier
@@ -94,7 +97,7 @@ fun ConversationList(
                 items(conversations) { conversation ->
                     ConversationCell(
                         conversation = conversation,
-                        onClickCell = {}
+                        onClickCell = { onNavigateToConversation(conversation.id) }
                     )
                 }
             }

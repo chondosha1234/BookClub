@@ -8,10 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.chondosha.bookclub.ui.CreateAccountScreen
-import com.chondosha.bookclub.ui.GroupScreen
-import com.chondosha.bookclub.ui.LoginScreen
-import com.chondosha.bookclub.ui.UserHomeScreen
+import com.chondosha.bookclub.ui.*
 
 @Composable
 fun Navigation(
@@ -53,8 +50,18 @@ fun Navigation(
             arguments = listOf(navArgument("groupId") {type = NavType.StringType} )
         ) { backStackEntry ->
             GroupScreen(
-                modifier = Modifier,
-                groupId = backStackEntry.arguments?.getString("groupId")
+                groupId = backStackEntry.arguments?.getString("groupId"),
+                onNavigateToConversation = { conversationId ->
+                    navController.navigate("conversation/${conversationId}")
+                }
+            )
+        }
+        composable(
+            "conversation/{conversationId}",
+            arguments = listOf(navArgument("conversationId") {type = NavType.StringType} )
+        ) { backStackEntry ->
+            ConversationScreen(
+                conversationId = backStackEntry.arguments?.getString("conversationId")
             )
         }
     }

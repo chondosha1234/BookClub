@@ -87,7 +87,8 @@ fun MessageList(
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
-        modifier = modifier
+        modifier = modifier,
+        reverseLayout = true,
     ) {
         if (messages != null) {
             if (messages.isEmpty()) {

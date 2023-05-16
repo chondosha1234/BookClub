@@ -10,6 +10,10 @@
     <string name="create_account">Create Account</string>
     <string name="add_group">Add Group</string>
     <string name="add_friend">Add Friend</string>
+    <string name="remove_user">Remove</string>
+    <string name="remove_confirmation">Are you sure you want to remove user?</string>
+    <string name="confirm">Yes</string>
+    <string name="deny">No</string>
 
     <string name="settings">Settings</string>
 

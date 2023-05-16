@@ -84,6 +84,7 @@ fun UserHomeScreen(
             1 -> Column {
                 FriendList(
                     friends = friends,
+                    userHomeViewModel = userHomeViewModel,
                     modifier = Modifier
                         .padding(innerPadding)
                         .fillMaxWidth()
@@ -133,8 +134,11 @@ fun GroupList(
 @Composable
 fun FriendList(
     friends: List<User>?,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    userHomeViewModel: UserHomeViewModel
 ) {
+
+
     LazyColumn(
         modifier = modifier
     ) {
@@ -148,9 +152,9 @@ fun FriendList(
                 }
             } else {
                 items(friends) { friend ->
-                    UserCell(
+                    FriendCell(
                         user = friend,
-                        onClickCell = { }
+                        userHomeViewModel = userHomeViewModel
                     )
                 }
             }

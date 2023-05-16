@@ -15,6 +15,7 @@ import com.chondosha.bookclub.api.models.Conversation
 import com.chondosha.bookclub.api.models.User
 import com.chondosha.bookclub.viewmodels.GroupViewModel
 import com.chondosha.bookclub.viewmodels.GroupViewModelFactory
+import com.chondosha.bookclub.viewmodels.UserHomeViewModel
 import java.util.*
 
 
@@ -69,8 +70,10 @@ fun GroupScreen(
                 onNavigateToConversation = onNavigateToConversation
             )
             1 -> MemberList(
+                groupId = group?.id,
                 members = members,
-                modifier = Modifier.padding(innerPadding)
+                modifier = Modifier.padding(innerPadding),
+                groupViewModel = groupViewModel
             )
         }
     }
@@ -107,8 +110,10 @@ fun ConversationList(
 
 @Composable
 fun MemberList(
+    groupId: UUID?,
     members: List<User>?,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    groupViewModel: GroupViewModel
 ) {
     LazyColumn(
         modifier = modifier
@@ -123,10 +128,13 @@ fun MemberList(
                 }
             } else {
                 items(members) { member ->
-                    UserCell(
-                        user = member,
-                        onClickCell = { }
-                    )
+                    if (groupId != null) {
+                        MemberCell(
+                            groupId = groupId,
+                            user = member,
+                            groupViewModel = groupViewModel
+                        )
+                    }
                 }
             }
         }

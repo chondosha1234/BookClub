@@ -53,5 +53,6 @@ fun GroupCell(
                 text = stringResource(R.string.group_name, group.name),
             )
         }
+
     }
 }

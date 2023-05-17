@@ -1,5 +1,6 @@
 package com.chondosha.bookclub.api.models
 
+import com.squareup.moshi.Json
 import java.util.UUID
 
 data class User(
@@ -8,5 +9,5 @@ data class User(
     val username: String,
     val groups: List<Group>,
     val friends: List<User>,
-    val picture: String? = null
+    @Json(name = "picture_url") val picture: String? = null
 )

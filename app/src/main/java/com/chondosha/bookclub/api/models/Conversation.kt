@@ -8,5 +8,5 @@ data class Conversation(
     @Json(name = "book_title") val bookTitle: String,
     val group: String,
     val messageList: List<Message>,
-    val picture: String? = null
+    @Json(name = "picture_url") val picture: String? = null
 )

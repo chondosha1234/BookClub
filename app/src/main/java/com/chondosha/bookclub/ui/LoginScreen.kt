@@ -16,6 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.chondosha.bookclub.LocalLoginRepository
 import com.chondosha.bookclub.LocalUserRepository
 import com.chondosha.bookclub.R
 import com.chondosha.bookclub.viewmodels.LoginViewModel
@@ -28,7 +29,7 @@ fun LoginScreen(
     onNavigateToCreateAccount: () -> Unit
 ) {
     val loginViewModel: LoginViewModel = viewModel(
-        factory = LoginViewModelFactory(LocalUserRepository.current)
+        factory = LoginViewModelFactory(LocalLoginRepository.current)
     )
 
     val username = remember { mutableStateOf("") }
@@ -85,7 +86,7 @@ fun LoginScreen(
 
             Button(
                 onClick = {
-                    loginViewModel.login(username.value, password.value)
+                    loginViewModel.login(context, username.value, password.value)
                     loginAttempted.value = true
                 },
                 modifier = Modifier
@@ -97,7 +98,6 @@ fun LoginScreen(
 
         when (loginResult.value.isSuccess) {
             true -> {
-                val userResponse = loginResult.value.getOrNull()  // maybe not needed if authenticated user collects info on home screen
                 onNavigateToHome()
             }
             false -> {

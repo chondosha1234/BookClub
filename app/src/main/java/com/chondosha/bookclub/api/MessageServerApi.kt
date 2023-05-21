@@ -4,10 +4,7 @@ import com.chondosha.bookclub.api.models.CreateAccountRequest
 import com.chondosha.bookclub.api.models.FcmTokenRequest
 import com.chondosha.bookclub.api.models.LoginRequest
 import com.chondosha.bookclub.api.models.SendMessageRequest
-import com.chondosha.bookclub.api.responses.ConversationResponse
-import com.chondosha.bookclub.api.responses.GroupResponse
-import com.chondosha.bookclub.api.responses.MessageResponse
-import com.chondosha.bookclub.api.responses.UserResponse
+import com.chondosha.bookclub.api.responses.*
 import com.google.gson.annotations.SerializedName
 import retrofit2.Response
 
@@ -59,7 +56,7 @@ interface MessageServerApi {
 
 
     @POST("login")
-    suspend fun login(@Body loginRequest: LoginRequest): Response<UserResponse>
+    suspend fun login(@Body loginRequest: LoginRequest): Response<TokenResponse>
 
     @POST("users/set_fcm_token")
     suspend fun setFcmToken(@Body request: FcmTokenRequest): UserResponse

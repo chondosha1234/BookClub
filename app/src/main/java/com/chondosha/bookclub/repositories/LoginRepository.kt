@@ -29,7 +29,7 @@ class LoginRepository {
             if (response.isSuccessful) {
                 val tokenResponse = response.body()
                 if (tokenResponse != null) {
-                    val authToken = tokenResponse.token.token
+                    val authToken = tokenResponse.token.key
                     SharedPreferencesManager.saveAuthToken(context, authToken)
                     //setFcmToken()
                     Result.success(tokenResponse)

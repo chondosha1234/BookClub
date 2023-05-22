@@ -1,5 +1,6 @@
 package com.chondosha.bookclub.ui
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -26,16 +27,16 @@ import java.util.*
 @Composable
 fun UserHomeScreen(
     modifier: Modifier = Modifier,
-    onNavigateToGroup: (groupId: UUID) -> Unit
-){
-    val userHomeViewModel : UserHomeViewModel = viewModel(
+    onNavigateToGroup: (groupId: UUID) -> Unit,
+    userHomeViewModel : UserHomeViewModel = viewModel(
         factory = UserHomeViewModelFactory(LocalUserRepository.current)
     )
+){
 
-    val coroutineScope = rememberCoroutineScope()
+    //val coroutineScope = rememberCoroutineScope()
     val navController = rememberNavController()
 
-    val user by userHomeViewModel.user.collectAsState()
+    //val user by userHomeViewModel.user.collectAsState()
     val groups by userHomeViewModel.groups.collectAsState()
     val friends by userHomeViewModel.friends.collectAsState()
 
@@ -58,7 +59,7 @@ fun UserHomeScreen(
                     null
                 },
                 actions = {
-                    OptionsMenu()
+                    OptionsMenu(userHomeViewModel)
                 }
             )
         },
@@ -79,8 +80,10 @@ fun UserHomeScreen(
             }
         }
     ) { innerPadding ->
-        when (selectedItem.value) {
+        val currentItem = selectedItem.value
+        when (currentItem) {
             0 -> Column {
+                Log.d("Test", "Inside composable when block 0 selectedItem")
                 GroupList(
                     groups = groups,
                     onNavigateToGroup = onNavigateToGroup,
@@ -97,6 +100,7 @@ fun UserHomeScreen(
                 }
             }
             1 -> Column {
+                Log.d("Test", "Inside composable when block 1 selectedItem")
                 FriendList(
                     friends = friends,
                     userHomeViewModel = userHomeViewModel,

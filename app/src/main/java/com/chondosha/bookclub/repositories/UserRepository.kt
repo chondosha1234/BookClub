@@ -52,11 +52,9 @@ class UserRepository {
     }
 
     suspend fun createUser(email: String, username: String, password: String): Result<UserResponse> {
-        Log.d("Test", "inside repository create function")
         return try {
             val request = CreateAccountRequest(email, username, password)
             val response = messageServerApi.createUser(request)
-            Log.d("Test", "response in repository from api: $response")
             if (response.isSuccessful) {
                 val userResponse = response.body()
                 if (userResponse != null) {
@@ -77,7 +75,6 @@ class UserRepository {
     suspend fun getCurrentUser(): User = messageServerApi.getCurrentUser().users[0]
 
     suspend fun getGroupList(): List<Group> = messageServerApi.getGroupList().groups
-    // maybe unnecessary?
 
     suspend fun getFriendsList(): List<User> = messageServerApi.getFriendList().users
 

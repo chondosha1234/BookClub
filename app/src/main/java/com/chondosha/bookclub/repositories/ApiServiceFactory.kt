@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import com.chondosha.bookclub.BookClubApplication
 import com.chondosha.bookclub.SharedPreferencesManager
+import com.chondosha.bookclub.SharedPreferencesManager.getAuthToken
 import com.chondosha.bookclub.api.MessageServerApi
 import com.squareup.moshi.FromJson
 import com.squareup.moshi.Moshi
@@ -60,6 +61,7 @@ class AuthorizationInterceptor : Interceptor {
             .header("Authorization", "Token " + getAuthToken().toString())
             .build()
 
+        /*
         val headers = modifiedRequest.headers
         for (name in headers.names()) {
             val values = headers.values(name)
@@ -67,6 +69,8 @@ class AuthorizationInterceptor : Interceptor {
                 Log.d("Test", "modified request headers: $name: $value")
             }
         }
+
+         */
 
         return chain.proceed(modifiedRequest)
     }

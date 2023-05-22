@@ -1,14 +1,12 @@
 package com.chondosha.bookclub.ui
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -26,11 +24,11 @@ import com.chondosha.bookclub.viewmodels.LoginViewModelFactory
 fun LoginScreen(
     modifier: Modifier = Modifier,
     onNavigateToHome: () -> Unit,
-    onNavigateToCreateAccount: () -> Unit
-) {
-    val loginViewModel: LoginViewModel = viewModel(
+    onNavigateToCreateAccount: () -> Unit,
+    loginViewModel: LoginViewModel = viewModel(
         factory = LoginViewModelFactory(LocalLoginRepository.current)
     )
+) {
 
     val username = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
@@ -96,11 +94,11 @@ fun LoginScreen(
             }
         }
 
-        when (loginResult.value.isSuccess) {
-            true -> {
+        LaunchedEffect(loginResult.value.isSuccess) {
+            Log.d("Test", "inside launched effect")
+            if (loginResult.value.isSuccess) {
                 onNavigateToHome()
-            }
-            false -> {
+            } else {
                 if (loginAttempted.value) {
                     username.value = ""
                     password.value = ""
@@ -108,5 +106,22 @@ fun LoginScreen(
                 }
             }
         }
+
+        /*
+        when (loginResult.value.isSuccess) {
+            true -> {
+                Log.d("Test", "loginResult: true")
+                onNavigateToHome()
+            }
+            false -> {
+                Log.d("Test", "loginResult: false")
+                if (loginAttempted.value) {
+                    username.value = ""
+                    password.value = ""
+                    Toast.makeText(context, R.string.login_failed, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+        */
     }
 }

@@ -14,12 +14,10 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun OptionsMenu(
+    userHomeViewModel: UserHomeViewModel,
     modifier: Modifier = Modifier,
 ) {
 
-    val userHomeViewModel : UserHomeViewModel = viewModel(
-        factory = UserHomeViewModelFactory(LocalUserRepository.current)
-    )
     val coroutineScope = rememberCoroutineScope()
 
     var expanded by remember { mutableStateOf(false) }

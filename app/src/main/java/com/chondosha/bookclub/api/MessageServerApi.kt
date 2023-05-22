@@ -1,9 +1,7 @@
 package com.chondosha.bookclub.api
 
-import com.chondosha.bookclub.api.models.CreateAccountRequest
-import com.chondosha.bookclub.api.models.FcmTokenRequest
-import com.chondosha.bookclub.api.models.LoginRequest
-import com.chondosha.bookclub.api.models.SendMessageRequest
+import android.util.Log
+import com.chondosha.bookclub.api.models.*
 import com.chondosha.bookclub.api.responses.*
 import com.google.gson.annotations.SerializedName
 import retrofit2.Response
@@ -24,7 +22,7 @@ interface MessageServerApi {
 
 
     @POST("groups/create")
-    suspend fun createGroup(): GroupResponse
+    suspend fun createGroup(@Body request: CreateGroupRequest): GroupResponse
 
     @GET("groups/{groupId}/get_group")
     suspend fun getGroup(@Path("groupId") groupId: UUID): GroupResponse

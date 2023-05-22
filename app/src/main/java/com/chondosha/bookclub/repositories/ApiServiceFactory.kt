@@ -1,10 +1,8 @@
 package com.chondosha.bookclub.repositories
 
 import android.content.Context
-import android.util.Log
 import com.chondosha.bookclub.BookClubApplication
 import com.chondosha.bookclub.SharedPreferencesManager
-import com.chondosha.bookclub.SharedPreferencesManager.getAuthToken
 import com.chondosha.bookclub.api.MessageServerApi
 import com.squareup.moshi.FromJson
 import com.squareup.moshi.Moshi
@@ -14,12 +12,16 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.*
 
 object ApiServiceFactory {
     private val okHttpClient = OkHttpClient.Builder()
+        .addInterceptor(HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        })
         .addInterceptor(AuthorizationInterceptor())
         .build()
     

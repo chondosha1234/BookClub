@@ -1,6 +1,7 @@
 package com.chondosha.bookclub.repositories
 
 import android.content.Context
+import android.util.Log
 import com.chondosha.bookclub.BookClubApplication
 import com.chondosha.bookclub.SharedPreferencesManager
 import com.chondosha.bookclub.api.MessageServerApi
@@ -17,7 +18,9 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.*
 
 object ApiServiceFactory {
-    private val okHttpClient = OkHttpClient.Builder().build()
+    private val okHttpClient = OkHttpClient.Builder()
+        .addInterceptor(AuthorizationInterceptor())
+        .build()
     
     val moshi: Moshi = Moshi.Builder()
         .add(KotlinJsonAdapterFactory())
@@ -54,8 +57,17 @@ class AuthorizationInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val originalRequest: Request = chain.request()
         val modifiedRequest: Request = originalRequest.newBuilder()
-            .header("Authorization", getAuthToken().toString())
+            .header("Authorization", "Token " + getAuthToken().toString())
             .build()
+
+        val headers = modifiedRequest.headers
+        for (name in headers.names()) {
+            val values = headers.values(name)
+            for (value in values) {
+                Log.d("Test", "modified request headers: $name: $value")
+            }
+        }
+
         return chain.proceed(modifiedRequest)
     }
 

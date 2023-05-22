@@ -153,7 +153,6 @@ fun FriendList(
     userHomeViewModel: UserHomeViewModel
 ) {
 
-
     LazyColumn(
         modifier = modifier
     ) {

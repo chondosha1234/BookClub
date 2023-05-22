@@ -4,6 +4,8 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.chondosha.bookclub.BookClubApplication
+import com.chondosha.bookclub.SharedPreferencesManager
 import com.chondosha.bookclub.api.models.Group
 import com.chondosha.bookclub.api.models.User
 import com.chondosha.bookclub.repositories.UserRepository
@@ -28,7 +30,10 @@ class UserHomeViewModel(
 
     init {
         viewModelScope.launch {
+            Log.d("Test", "inside user home view model init")
+            Log.d("Test", "home view model - token from shared pref: ${SharedPreferencesManager.getAuthToken(BookClubApplication.appContext)}")
             _user.value = repository.getCurrentUser()
+            Log.d("Test", "home view model _user value: ${_user.value}")
             _groups.value = repository.getGroupList()
             _friends.value = repository.getFriendsList()
         }

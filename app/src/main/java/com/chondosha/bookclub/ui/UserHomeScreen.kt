@@ -2,6 +2,7 @@ package com.chondosha.bookclub.ui
 
 import android.util.Log
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -10,9 +11,11 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.chondosha.bookclub.LocalUserRepository
@@ -82,40 +85,35 @@ fun UserHomeScreen(
     ) { innerPadding ->
         val currentItem = selectedItem.value
         when (currentItem) {
-            0 -> Column {
+            0 -> Column(
+                modifier = Modifier
+                    .padding(innerPadding)
+                    .fillMaxSize()
+            ) {
                 Log.d("Test", "Inside composable when block 0 selectedItem")
                 GroupList(
                     groups = groups,
                     onNavigateToGroup = onNavigateToGroup,
                     modifier = Modifier
-                        .padding(innerPadding)
+                        .padding(4.dp)
                         .fillMaxWidth()
-                        .weight(1f, fill = true)
+                        .weight(.9f, fill=true)
                 )
-
-                Button(
-                    onClick = {}
-                ){
-                    Text(text = stringResource(R.string.add_group))
-                }
             }
-            1 -> Column {
+            1 -> Column(
+                modifier = Modifier
+                    .padding(innerPadding)
+                    .fillMaxSize()
+            ) {
                 Log.d("Test", "Inside composable when block 1 selectedItem")
                 FriendList(
                     friends = friends,
                     userHomeViewModel = userHomeViewModel,
                     modifier = Modifier
-                        .padding(innerPadding)
+                        .padding(4.dp)
                         .fillMaxWidth()
-                        .weight(1f, fill = true)
+                        .weight(.9f, fill=true)
                 )
-                Button(
-                    onClick = {
-                        // launch dialog or screen?
-                    }
-                ){
-                    Text(text = stringResource(R.string.add_friend))
-                }
             }
         }
     }
@@ -148,6 +146,14 @@ fun GroupList(
             }
         }
     }
+    Button(
+        onClick = {},
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 8.dp)
+    ){
+        Text(text = stringResource(R.string.add_group))
+    }
 }
 
 @Composable
@@ -156,7 +162,6 @@ fun FriendList(
     modifier: Modifier = Modifier,
     userHomeViewModel: UserHomeViewModel
 ) {
-
     LazyColumn(
         modifier = modifier
     ) {
@@ -177,6 +182,14 @@ fun FriendList(
                 }
             }
         }
+    }
+    Button(
+        onClick = {},
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 8.dp)
+    ){
+        Text(text = stringResource(R.string.add_friend))
     }
 }
 

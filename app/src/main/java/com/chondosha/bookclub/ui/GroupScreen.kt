@@ -1,17 +1,28 @@
 package com.chondosha.bookclub.ui
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
+import coil.compose.rememberAsyncImagePainter
 import com.chondosha.bookclub.LocalGroupRepository
 import com.chondosha.bookclub.R
 import com.chondosha.bookclub.api.models.Conversation
@@ -19,6 +30,7 @@ import com.chondosha.bookclub.api.models.User
 import com.chondosha.bookclub.viewmodels.GroupViewModel
 import com.chondosha.bookclub.viewmodels.GroupViewModelFactory
 import com.chondosha.bookclub.viewmodels.UserHomeViewModel
+import java.io.File
 import java.util.*
 
 
@@ -26,12 +38,11 @@ import java.util.*
 fun GroupScreen(
     groupId: String?,
     modifier: Modifier = Modifier,
-    onNavigateToConversation: (conversationId: UUID) -> Unit
-) {
-
-    val groupViewModel : GroupViewModel = viewModel(
+    onNavigateToConversation: (conversationId: UUID) -> Unit,
+    groupViewModel : GroupViewModel = viewModel(
         factory = GroupViewModelFactory(LocalGroupRepository.current, groupId)
     )
+) {
 
     val navController = rememberNavController()
 
@@ -40,6 +51,11 @@ fun GroupScreen(
     val members by groupViewModel.members.collectAsState()
 
     val selectedItem = remember { mutableStateOf(0) }
+
+    val imagePainter = rememberAsyncImagePainter(
+        model = group?.picture,
+        placeholder = painterResource(R.drawable.ic_launcher_background)  // todo find image
+    )
 
     Scaffold(
         modifier = modifier,
@@ -58,7 +74,19 @@ fun GroupScreen(
                     null
                 },
                 actions = {
-                    OptionsMenu()
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Image(
+                            painter = imagePainter,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(36.dp)
+                                .clip(CircleShape)
+                        )
+                        //OptionsMenu()
+                    }
+
                 }
             )
         },

@@ -27,11 +27,10 @@ import kotlinx.coroutines.launch
 fun ConversationScreen(
     conversationId: String?,
     modifier: Modifier = Modifier,
-) {
-
-    val conversationViewModel : ConversationViewModel = viewModel(
+    conversationViewModel : ConversationViewModel = viewModel(
         factory = ConversationViewModelFactory(LocalConversationRepository.current, conversationId)
     )
+) {
 
     val coroutineScope = rememberCoroutineScope()
     val navController = rememberNavController()
@@ -58,7 +57,7 @@ fun ConversationScreen(
                     null
                 },
                 actions = {
-                    OptionsMenu()
+                    //OptionsMenu()
                 }
             )
         },

@@ -1,5 +1,6 @@
 package com.chondosha.bookclub.ui
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -8,10 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -48,7 +46,6 @@ fun CreateAccountScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        //Text(text = stringResource(R.string.login))
 
         TextField(
             value = email.value,
@@ -100,6 +97,21 @@ fun CreateAccountScreen(
         }
     }
 
+    LaunchedEffect(createResult.value.isSuccess) {
+        Log.d("Test", "inside launched effect")
+        if (createResult.value.isSuccess) {
+            onNavigateToLogin()
+        } else {
+            if (createAttempted.value) {
+                email.value = ""
+                username.value = ""
+                password.value = ""
+                Toast.makeText(context, R.string.create_account_failed, Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    /*
     when (createResult.value.isSuccess) {
         true -> {
             onNavigateToLogin()
@@ -113,4 +125,6 @@ fun CreateAccountScreen(
             }
         }
     }
+
+     */
 }

@@ -1,9 +1,7 @@
 package com.chondosha.bookclub.ui
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -39,6 +37,7 @@ fun GroupScreen(
     groupId: String?,
     modifier: Modifier = Modifier,
     onNavigateToConversation: (conversationId: UUID) -> Unit,
+    onNavigateToCreateConversation: (groupId: String) -> Unit,
     groupViewModel : GroupViewModel = viewModel(
         factory = GroupViewModelFactory(LocalGroupRepository.current, groupId)
     )
@@ -108,26 +107,48 @@ fun GroupScreen(
         }
     ) { innerPadding ->
         when (selectedItem.value) {
-            0 -> ConversationList(
-                conversations = conversations,
-                modifier = Modifier.padding(innerPadding),
-                onNavigateToConversation = onNavigateToConversation
-            )
-            1 -> MemberList(
-                groupId = group?.id,
-                members = members,
-                modifier = Modifier.padding(innerPadding),
-                groupViewModel = groupViewModel
-            )
+            0 -> Column(
+                modifier = Modifier
+                    .padding(innerPadding)
+                    .fillMaxSize()
+            ) {
+                ConversationList(
+                    groupId = groupId.toString(),
+                    conversations = conversations,
+                    modifier = Modifier
+                        .padding(4.dp)
+                        .fillMaxWidth()
+                        .weight(.9f, fill=true),
+                    onNavigateToConversation = onNavigateToConversation,
+                    onNavigateToCreateConversation = onNavigateToCreateConversation
+                )
+            }
+            1 -> Column(
+                modifier = Modifier
+                    .padding(innerPadding)
+                    .fillMaxSize()
+            ) {
+                MemberList(
+                    groupId = group?.id,
+                    members = members,
+                    modifier = Modifier
+                        .padding(4.dp)
+                        .fillMaxWidth()
+                        .weight(.9f, fill=true),
+                    groupViewModel = groupViewModel
+                )
+            }
         }
     }
 }
 
 @Composable
 fun ConversationList(
+    groupId: String,
     conversations: List<Conversation>?,
     modifier: Modifier = Modifier,
-    onNavigateToConversation: (conversationId: UUID) -> Unit
+    onNavigateToConversation: (conversationId: UUID) -> Unit,
+    onNavigateToCreateConversation: (groupId: String) -> Unit
 ) {
     LazyColumn(
         modifier = modifier
@@ -149,6 +170,14 @@ fun ConversationList(
                 }
             }
         }
+    }
+    Button(
+        onClick = { onNavigateToCreateConversation(groupId) },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 8.dp)
+    ){
+        Text(text = stringResource(R.string.add_conversation))
     }
 }
 

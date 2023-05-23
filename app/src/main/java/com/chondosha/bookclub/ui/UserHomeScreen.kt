@@ -11,7 +11,6 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -24,13 +23,13 @@ import com.chondosha.bookclub.api.models.Group
 import com.chondosha.bookclub.api.models.User
 import com.chondosha.bookclub.viewmodels.UserHomeViewModel
 import com.chondosha.bookclub.viewmodels.UserHomeViewModelFactory
-import kotlinx.coroutines.launch
 import java.util.*
 
 @Composable
 fun UserHomeScreen(
     modifier: Modifier = Modifier,
     onNavigateToGroup: (groupId: UUID) -> Unit,
+    onNavigateToCreateGroup: () -> Unit,
     userHomeViewModel : UserHomeViewModel = viewModel(
         factory = UserHomeViewModelFactory(LocalUserRepository.current)
     )
@@ -83,8 +82,7 @@ fun UserHomeScreen(
             }
         }
     ) { innerPadding ->
-        val currentItem = selectedItem.value
-        when (currentItem) {
+        when (selectedItem.value) {
             0 -> Column(
                 modifier = Modifier
                     .padding(innerPadding)
@@ -94,6 +92,7 @@ fun UserHomeScreen(
                 GroupList(
                     groups = groups,
                     onNavigateToGroup = onNavigateToGroup,
+                    onNavigateToCreateGroup = onNavigateToCreateGroup,
                     modifier = Modifier
                         .padding(4.dp)
                         .fillMaxWidth()
@@ -123,7 +122,8 @@ fun UserHomeScreen(
 fun GroupList(
     groups: List<Group>?,
     modifier: Modifier = Modifier,
-    onNavigateToGroup: (groupId: UUID) -> Unit
+    onNavigateToGroup: (groupId: UUID) -> Unit,
+    onNavigateToCreateGroup: () -> Unit
 ) {
     LazyColumn(
         modifier = modifier
@@ -147,7 +147,7 @@ fun GroupList(
         }
     }
     Button(
-        onClick = {},
+        onClick = { onNavigateToCreateGroup() },
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 8.dp)

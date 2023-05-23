@@ -32,13 +32,17 @@ class UserHomeViewModel(
         viewModelScope.launch {
             Log.d("Test", "inside user home view model init")
             _user.value = repository.getCurrentUser()
+            Log.d("Test", "user view model after get current user")
             _groups.value = repository.getGroupList()
+            Log.d("Test", "user view model after get group list")
             _friends.value = repository.getFriendsList()
         }
     }
 
-    suspend fun createGroup() {
-        _groups.value = repository.createGroup()
+    fun createGroup(name: String) {
+        viewModelScope.launch {
+            _groups.value = repository.createGroup(name)
+        }
     }
 
     suspend fun addFriend(userId: UUID) {

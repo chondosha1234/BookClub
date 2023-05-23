@@ -95,7 +95,7 @@ fun LoginScreen(
         }
 
         LaunchedEffect(loginResult.value.isSuccess) {
-            Log.d("Test", "inside launched effect")
+            Log.d("Test", "inside launched effect on login")
             if (loginResult.value.isSuccess) {
                 onNavigateToHome()
             } else {

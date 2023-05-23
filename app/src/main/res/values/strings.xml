@@ -17,6 +17,10 @@
 
     <string name="add_friend">Add Friend</string>
 
+    <string name="add_conversation">Add Conversation</string>
+    <string name="create_conversation">Create Conversation</string>
+    <string name="book_title_label">Book Title</string>
+
     <string name="remove_user">Remove</string>
     <string name="remove_confirmation">Are you sure you want to remove user?</string>
     <string name="confirm">Yes</string>

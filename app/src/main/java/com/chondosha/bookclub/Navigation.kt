@@ -2,6 +2,7 @@ package com.chondosha.bookclub
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -9,6 +10,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.chondosha.bookclub.ui.*
+import com.chondosha.bookclub.viewmodels.UserHomeViewModel
+import com.chondosha.bookclub.viewmodels.UserHomeViewModelFactory
 
 @Composable
 fun Navigation(
@@ -42,6 +45,16 @@ fun Navigation(
             UserHomeScreen(
                 onNavigateToGroup = { groupId ->
                     navController.navigate("group/${groupId}")
+                },
+                onNavigateToCreateGroup = {
+                    navController.navigate("create_group")
+                }
+            )
+        }
+        composable("create_group") {
+            CreateGroupScreen(
+                onNavigateToHome = {
+                    navController.navigate("user_home")
                 }
             )
         }
@@ -53,6 +66,21 @@ fun Navigation(
                 groupId = backStackEntry.arguments?.getString("groupId"),
                 onNavigateToConversation = { conversationId ->
                     navController.navigate("conversation/${conversationId}")
+                },
+                onNavigateToCreateConversation = { groupId ->
+                    navController.navigate("create_conversation/${groupId}")
+                }
+            )
+        }
+        composable(
+            "create_conversation/{groupId}",
+            arguments = listOf(navArgument("groupId") {type = NavType.StringType} )
+        )
+            { backStackEntry ->
+            CreateConversationScreen(
+                groupIdString = backStackEntry.arguments?.getString("groupId"),
+                onNavigateToGroup = { groupId ->
+                    navController.navigate("group/${groupId}")
                 }
             )
         }

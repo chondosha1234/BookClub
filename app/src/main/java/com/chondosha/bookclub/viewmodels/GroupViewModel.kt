@@ -36,8 +36,10 @@ class GroupViewModel(
         }
     }
 
-    suspend fun createConversation(groupId: UUID) {
-        _conversations.value = repository.createConversation(groupId)
+    fun createConversation(groupId: UUID) {
+        viewModelScope.launch {
+            _conversations.value = repository.createConversation(groupId)
+        }
     }
 
     suspend fun addMember(groupId: UUID, userId: UUID) {

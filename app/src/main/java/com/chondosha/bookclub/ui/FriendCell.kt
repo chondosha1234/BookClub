@@ -2,10 +2,7 @@ package com.chondosha.bookclub.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -35,17 +32,16 @@ fun FriendCell(
     val coroutineScope = rememberCoroutineScope()
 
     val imagePainter = rememberAsyncImagePainter(
-        model = user.picture?.let {
-            File(LocalContext.current.filesDir, it).toUri()
-        },
+        model = user.picture,
         placeholder = painterResource(R.drawable.ic_launcher_background)  // todo find image
     )
 
     Row(
     verticalAlignment = Alignment.CenterVertically,
     modifier = modifier
-    .clickable { expanded = true }
-    .padding(vertical = 4.dp, horizontal = 16.dp)
+        .fillMaxWidth()
+        .clickable { expanded = true }
+        .padding(vertical = 4.dp, horizontal = 16.dp)
     ) {
         Image(
             painter = imagePainter,

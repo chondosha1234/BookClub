@@ -60,7 +60,7 @@ fun GroupScreen(
         modifier = modifier,
         topBar = {
             TopAppBar(
-                title = { Text(text = stringResource(R.string.app_name)) },
+                title = { Text(text = stringResource(R.string.header, group?.name ?: R.string.app_name)) },
                 navigationIcon = if (navController.previousBackStackEntry != null) {
                     {
                         IconButton(

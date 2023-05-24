@@ -1,16 +1,17 @@
 package com.chondosha.bookclub.ui
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -44,7 +45,7 @@ fun ConversationScreen(
         modifier = modifier,
         topBar = {
             TopAppBar(
-                title = { Text(text = stringResource(R.string.app_name)) },
+                title = { Text(text = stringResource(R.string.header, conversation?.bookTitle ?: R.string.app_name)) },
                 navigationIcon = if (navController.previousBackStackEntry != null) {
                     {
                         IconButton(
@@ -68,27 +69,39 @@ fun ConversationScreen(
                 MessageList(
                     messages = messages,
                     modifier = modifier
+                        .padding(4.dp)
+                        .fillMaxWidth()
+                        .weight(1f, fill=true)
                 )
 
                 Row(
-                    modifier = modifier
+                    modifier = modifier,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     TextField(
                         value = message.value,
                         onValueChange = { message.value = it },
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp)
+                            //.fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 4.dp)
                     )
                     Button(
+                        shape = CircleShape,
                         onClick = {
                             coroutineScope.launch {
                                 conversationViewModel.sendMessage(message.value)
                             }
                             message.value = ""
-                        }
+                        },
+                        modifier = Modifier.padding(4.dp)
                     ) {
-                        // add image for send
+                        Image(
+                            painter = painterResource(R.drawable.message_send_button),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .padding(8.dp)
+                                .size(16.dp)
+                        )
                     }
                 }
             }
@@ -102,15 +115,16 @@ fun MessageList(
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
-        modifier = modifier,
+        modifier = modifier.padding(16.dp).fillMaxWidth(),
         reverseLayout = true,
     ) {
         if (messages != null) {
             if (messages.isEmpty()) {
                 item {
                     Text(
-                        text = stringResource(R.string.empty_group_list_text),
-                        textAlign = TextAlign.Center
+                        text = stringResource(R.string.empty_message_list_text),
+                        textAlign = TextAlign.Center,
+                        modifier = modifier.fillMaxWidth()
                     )
                 }
             } else {

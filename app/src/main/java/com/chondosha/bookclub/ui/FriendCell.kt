@@ -3,10 +3,12 @@ package com.chondosha.bookclub.ui
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -31,10 +33,14 @@ fun FriendCell(
 
     val coroutineScope = rememberCoroutineScope()
 
-    val imagePainter = rememberAsyncImagePainter(
-        model = user.picture,
-        placeholder = painterResource(R.drawable.ic_launcher_background)  // todo find image
-    )
+    val imagePainter = if (user.picture != null) {
+        rememberAsyncImagePainter(
+            model = user.picture,
+            placeholder = painterResource(R.drawable.no_picture)  // todo find image
+        )
+    } else {
+        painterResource(R.drawable.no_picture)
+    }
 
     Row(
     verticalAlignment = Alignment.CenterVertically,
@@ -46,7 +52,10 @@ fun FriendCell(
         Image(
             painter = imagePainter,
             contentDescription = null,
-            modifier = Modifier.size(72.dp)
+            modifier = Modifier
+                .padding(4.dp)
+                .size(24.dp)
+                .clip(CircleShape)
         )
         Column(
             modifier = modifier.padding(8.dp)

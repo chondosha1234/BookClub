@@ -7,6 +7,6 @@ data class Conversation(
     val id: UUID,
     @Json(name = "book_title") val bookTitle: String,
     val group: String,
-    val messageList: List<Message>,
+    //val messageList: List<Message>,
     @Json(name = "picture_url") val picture: String? = null
 )

@@ -3,10 +3,12 @@ package com.chondosha.bookclub.ui
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -25,12 +27,14 @@ fun GroupCell(
     onClickCell: () -> Unit
 ) {
 
-    val imagePainter = rememberAsyncImagePainter(
-        model = group.picture?.let {
-            File(LocalContext.current.filesDir, it).toUri()
-        },
-        placeholder = painterResource(R.drawable.ic_launcher_background)  // todo find image
-    )
+    val imagePainter = if (group.picture != null) {
+        rememberAsyncImagePainter(
+            model = group.picture,
+            placeholder = painterResource(R.drawable.no_picture)  // todo find image
+        )
+    } else {
+        painterResource(R.drawable.no_picture)
+    }
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -42,7 +46,10 @@ fun GroupCell(
         Image(
             painter = imagePainter,
             contentDescription = null,
-            modifier = Modifier.size(64.dp)
+            modifier = Modifier
+                .padding(4.dp)
+                .size(24.dp)
+                .clip(CircleShape)
         )
         Column(
             modifier = modifier.padding(8.dp)

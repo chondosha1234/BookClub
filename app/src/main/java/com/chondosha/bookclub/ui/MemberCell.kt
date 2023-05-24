@@ -6,10 +6,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -36,12 +38,14 @@ fun MemberCell(
 
     val coroutineScope = rememberCoroutineScope()
 
-    val imagePainter = rememberAsyncImagePainter(
-        model = user.picture?.let {
-            File(LocalContext.current.filesDir, it).toUri()
-        },
-        placeholder = painterResource(R.drawable.ic_launcher_background)  // todo find image
-    )
+    val imagePainter = if (user.picture != null) {
+        rememberAsyncImagePainter(
+            model = user.picture,
+            placeholder = painterResource(R.drawable.no_picture)  // todo find image
+        )
+    } else {
+        painterResource(R.drawable.no_picture)
+    }
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -52,7 +56,10 @@ fun MemberCell(
         Image(
             painter = imagePainter,
             contentDescription = null,
-            modifier = Modifier.size(72.dp)
+            modifier = Modifier
+                .padding(4.dp)
+                .size(24.dp)
+                .clip(CircleShape)
         )
         Column(
             modifier = modifier.padding(8.dp)

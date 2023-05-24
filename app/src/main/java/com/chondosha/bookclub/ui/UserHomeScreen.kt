@@ -1,22 +1,24 @@
 package com.chondosha.bookclub.ui
 
 import android.util.Log
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
+import coil.compose.rememberAsyncImagePainter
 import com.chondosha.bookclub.LocalUserRepository
 import com.chondosha.bookclub.R
 import com.chondosha.bookclub.api.models.Group
@@ -30,6 +32,7 @@ fun UserHomeScreen(
     modifier: Modifier = Modifier,
     onNavigateToGroup: (groupId: UUID) -> Unit,
     onNavigateToCreateGroup: () -> Unit,
+    onNavigateToAddFriend: () -> Unit,
     userHomeViewModel : UserHomeViewModel = viewModel(
         factory = UserHomeViewModelFactory(LocalUserRepository.current)
     )
@@ -38,9 +41,18 @@ fun UserHomeScreen(
     //val coroutineScope = rememberCoroutineScope()
     val navController = rememberNavController()
 
-    //val user by userHomeViewModel.user.collectAsState()
+    val user by userHomeViewModel.user.collectAsState()
     val groups by userHomeViewModel.groups.collectAsState()
     val friends by userHomeViewModel.friends.collectAsState()
+
+    val imagePainter = if (user?.picture != null) {
+        rememberAsyncImagePainter(
+            model = user?.picture,
+            placeholder = painterResource(R.drawable.no_picture)  // todo find image
+        )
+    } else {
+        painterResource(R.drawable.no_picture)
+    }
 
     val selectedItem = remember { mutableStateOf(0)}
 
@@ -61,8 +73,17 @@ fun UserHomeScreen(
                     null
                 },
                 actions = {
+                    Image(
+                        painter = imagePainter,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .padding(4.dp)
+                            .size(24.dp)
+                            .clip(CircleShape)
+                    )
                     OptionsMenu(userHomeViewModel)
-                }
+                },
+                modifier = Modifier.fillMaxWidth(),
             )
         },
         bottomBar = {
@@ -108,6 +129,7 @@ fun UserHomeScreen(
                 FriendList(
                     friends = friends,
                     userHomeViewModel = userHomeViewModel,
+                    onNavigateToAddFriend = onNavigateToAddFriend,
                     modifier = Modifier
                         .padding(4.dp)
                         .fillMaxWidth()
@@ -126,7 +148,7 @@ fun GroupList(
     onNavigateToCreateGroup: () -> Unit
 ) {
     LazyColumn(
-        modifier = modifier
+        modifier = modifier.fillMaxWidth()
     ) {
         if (groups != null) {
             if (groups.isEmpty()) {
@@ -160,10 +182,11 @@ fun GroupList(
 fun FriendList(
     friends: List<User>?,
     modifier: Modifier = Modifier,
-    userHomeViewModel: UserHomeViewModel
+    userHomeViewModel: UserHomeViewModel,
+    onNavigateToAddFriend: () -> Unit
 ) {
     LazyColumn(
-        modifier = modifier
+        modifier = modifier.fillMaxWidth()
     ) {
         if (friends != null) {
             if (friends.isEmpty()) {
@@ -184,7 +207,7 @@ fun FriendList(
         }
     }
     Button(
-        onClick = {},
+        onClick = { onNavigateToAddFriend() },
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 8.dp)

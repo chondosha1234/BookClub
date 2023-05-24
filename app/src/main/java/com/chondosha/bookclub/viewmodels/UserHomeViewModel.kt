@@ -28,6 +28,9 @@ class UserHomeViewModel(
     private val _friends: MutableStateFlow<List<User>?> = MutableStateFlow(null)
     val friends: StateFlow<List<User>?> = _friends.asStateFlow()
 
+    private val _userSearch: MutableStateFlow<List<User>?> = MutableStateFlow(null)
+    val userSearch: StateFlow<List<User>?> = _userSearch.asStateFlow()
+
     init {
         viewModelScope.launch {
             Log.d("Test", "inside user home view model init")
@@ -47,6 +50,10 @@ class UserHomeViewModel(
 
     suspend fun addFriend(userId: UUID) {
         _friends.value = repository.addFriend(userId)
+    }
+
+    suspend fun searchUserList(query: String) {
+        // repo func
     }
 
     suspend fun removeFriend(userId: UUID) {

@@ -28,3 +28,8 @@ data class SendMessageRequest(
 data class CreateGroupRequest(
     @SerializedName("name") val name: String
 )
+
+data class CreateConversationRequest(
+    @SerializedName("book_title") val book_title: String,
+    @SerializedName("group") val group: UUID
+)

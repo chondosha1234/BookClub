@@ -74,7 +74,7 @@ fun CreateConversationScreen(
 
                 Button(
                     onClick = {
-                        groupViewModel.createConversation(groupId)
+                        groupViewModel.createConversation(bookTitle.value, groupId)
                         onNavigateToGroup(groupId)
                     },
                     modifier = Modifier

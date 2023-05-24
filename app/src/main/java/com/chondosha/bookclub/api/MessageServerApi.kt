@@ -40,8 +40,8 @@ interface MessageServerApi {
     suspend fun removeMember(@Path("groupId") groupId: UUID, @Path("userId") userId: UUID): GroupResponse
 
 
-    @POST("groups/{groupId}/create_conversation")
-    suspend fun createConversation(@Path("groupId") groupId: UUID): ConversationResponse
+    @POST("groups/create_conversation")
+    suspend fun createConversation(@Body request: CreateConversationRequest): ConversationResponse
 
     @GET("groups/conversation/{conversationId}")
     suspend fun getConversation(@Path("conversationId") conversationId: UUID): ConversationResponse

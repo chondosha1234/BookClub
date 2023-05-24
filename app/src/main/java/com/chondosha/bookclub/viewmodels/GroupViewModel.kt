@@ -36,9 +36,9 @@ class GroupViewModel(
         }
     }
 
-    fun createConversation(groupId: UUID) {
+    fun createConversation(bookTitle: String, groupId: UUID) {
         viewModelScope.launch {
-            _conversations.value = repository.createConversation(groupId)
+            _conversations.value = repository.createConversation(bookTitle, groupId)
         }
     }
 

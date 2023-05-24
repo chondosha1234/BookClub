@@ -1,8 +1,10 @@
 package com.chondosha.bookclub.repositories
 
+import android.util.Log
 import com.chondosha.bookclub.api.models.Group
 import com.chondosha.bookclub.api.MessageServerApi
 import com.chondosha.bookclub.api.models.Conversation
+import com.chondosha.bookclub.api.models.CreateConversationRequest
 import com.chondosha.bookclub.api.models.User
 import java.util.*
 
@@ -14,7 +16,11 @@ class GroupRepository {
 
     suspend fun getMemberList(groupId: UUID): List<User> = messageServerApi.getMemberList(groupId).users
 
-    suspend fun createConversation(groupId: UUID): List<Conversation> = messageServerApi.createConversation(groupId).conversations
+    suspend fun createConversation(bookTitle: String, groupId: UUID): List<Conversation> {
+        val request = CreateConversationRequest(bookTitle, groupId)
+        Log.d("Test", "request in create convo repo func: $request")
+        return messageServerApi.createConversation(CreateConversationRequest(bookTitle, groupId)).conversations
+    }
 
     suspend fun getConversationList(groupId: UUID): List<Conversation> = messageServerApi.getConversationList(groupId).conversations
 

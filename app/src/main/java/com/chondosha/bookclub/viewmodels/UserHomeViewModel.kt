@@ -4,8 +4,6 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.chondosha.bookclub.BookClubApplication
-import com.chondosha.bookclub.SharedPreferencesManager
 import com.chondosha.bookclub.api.models.Group
 import com.chondosha.bookclub.api.models.User
 import com.chondosha.bookclub.repositories.UserRepository
@@ -52,8 +50,10 @@ class UserHomeViewModel(
         _friends.value = repository.addFriend(userId)
     }
 
-    suspend fun searchUserList(query: String) {
-        // repo func
+    fun searchUserList(query: String) {
+        viewModelScope.launch {
+            _userSearch.value = repository.searchUserList(query)
+        }
     }
 
     suspend fun removeFriend(userId: UUID) {

@@ -33,3 +33,7 @@ data class CreateConversationRequest(
     @SerializedName("book_title") val book_title: String,
     @SerializedName("group") val group: UUID
 )
+
+data class SearchUserRequest(
+    @SerializedName("query") val query: String
+)

@@ -48,11 +48,21 @@ fun Navigation(
                 },
                 onNavigateToCreateGroup = {
                     navController.navigate("create_group")
+                },
+                onNavigateToAddFriend = {
+                    navController.navigate("add_friend")
                 }
             )
         }
         composable("create_group") {
             CreateGroupScreen(
+                onNavigateToHome = {
+                    navController.navigate("user_home")
+                }
+            )
+        }
+        composable("add_friend") {
+            AddFriendScreen(
                 onNavigateToHome = {
                     navController.navigate("user_home")
                 }

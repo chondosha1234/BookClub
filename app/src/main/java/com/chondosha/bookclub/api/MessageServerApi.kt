@@ -77,8 +77,8 @@ interface MessageServerApi {
     @POST("users/{userId}/add_friend")
     suspend fun addFriend(@Path("userId") userId: UUID): UserResponse
 
-    @GET("users/search")
-    suspend fun searchUserList(@Body searchUserRequest: SearchUserRequest): UserResponse
+    @GET("users/search/{query}")
+    suspend fun searchUserList(@Path("query") query: String): UserResponse
 
     @POST("users/{userId}/remove_friend")
     suspend fun removeFriend(@Path("userId") userId: UUID): UserResponse

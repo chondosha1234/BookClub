@@ -42,7 +42,7 @@ class UserRepository {
 
     suspend fun addFriend(userId: UUID): List<User> = messageServerApi.addFriend(userId).users
 
-    suspend fun searchUserList(query: String): List<User> = messageServerApi.searchUserList(SearchUserRequest(query)).users
+    suspend fun searchUserList(query: String): List<User> = messageServerApi.searchUserList(query).users
 
     suspend fun removeFriend(userId:UUID): List<User> = messageServerApi.removeFriend(userId).users
 

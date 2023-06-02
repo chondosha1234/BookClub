@@ -23,6 +23,7 @@ import com.chondosha.bookclub.viewmodels.UserHomeViewModelFactory
 @Composable
 fun CreateGroupScreen(
     onNavigateToHome: () -> Unit,
+    onNavigateToLogin: () -> Unit,
     modifier: Modifier = Modifier,
     userHomeViewModel : UserHomeViewModel = viewModel(
         factory = UserHomeViewModelFactory(LocalUserRepository.current)
@@ -49,7 +50,10 @@ fun CreateGroupScreen(
                     null
                 },
                 actions = {
-                    OptionsMenu(userHomeViewModel)
+                    OptionsMenu(
+                        userHomeViewModel = userHomeViewModel,
+                        onNavigateToLogin = onNavigateToLogin
+                    )
                 }
             )
         },

@@ -51,6 +51,9 @@ fun Navigation(
                 },
                 onNavigateToAddFriend = {
                     navController.navigate("add_friend")
+                },
+                onNavigateToLogin = {
+                    navController.navigate("login")
                 }
             )
         }
@@ -58,6 +61,9 @@ fun Navigation(
             CreateGroupScreen(
                 onNavigateToHome = {
                     navController.navigate("user_home")
+                },
+                onNavigateToLogin = {
+                    navController.navigate("login")
                 }
             )
         }
@@ -65,6 +71,9 @@ fun Navigation(
             AddFriendScreen(
                 onNavigateToHome = {
                     navController.navigate("user_home")
+                },
+                onNavigateToLogin = {
+                    navController.navigate("login")
                 }
             )
         }

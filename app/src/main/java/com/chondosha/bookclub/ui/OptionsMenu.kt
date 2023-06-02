@@ -15,6 +15,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun OptionsMenu(
     userHomeViewModel: UserHomeViewModel,
+    onNavigateToLogin: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
 
@@ -45,6 +46,7 @@ fun OptionsMenu(
         DropdownMenuItem(onClick = {
             coroutineScope.launch {
                 userHomeViewModel.logout()
+                onNavigateToLogin()
             }
         }) {
             Text(stringResource(R.string.logout))

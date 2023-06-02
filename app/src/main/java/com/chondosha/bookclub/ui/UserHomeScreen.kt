@@ -33,6 +33,7 @@ fun UserHomeScreen(
     onNavigateToGroup: (groupId: UUID) -> Unit,
     onNavigateToCreateGroup: () -> Unit,
     onNavigateToAddFriend: () -> Unit,
+    onNavigateToLogin: () -> Unit,
     userHomeViewModel : UserHomeViewModel = viewModel(
         factory = UserHomeViewModelFactory(LocalUserRepository.current)
     )
@@ -81,7 +82,10 @@ fun UserHomeScreen(
                             .size(24.dp)
                             .clip(CircleShape)
                     )
-                    OptionsMenu(userHomeViewModel)
+                    OptionsMenu(
+                        userHomeViewModel = userHomeViewModel,
+                        onNavigateToLogin = onNavigateToLogin
+                    )
                 },
                 modifier = Modifier.fillMaxWidth(),
             )

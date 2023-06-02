@@ -24,6 +24,7 @@ import com.chondosha.bookclub.viewmodels.UserHomeViewModelFactory
 fun AddFriendScreen(
     modifier: Modifier = Modifier,
     onNavigateToHome: () -> Unit,
+    onNavigateToLogin: () -> Unit,
     userHomeViewModel : UserHomeViewModel = viewModel(
         factory = UserHomeViewModelFactory(LocalUserRepository.current)
     )
@@ -50,7 +51,10 @@ fun AddFriendScreen(
                     null
                 },
                 actions = {
-                    OptionsMenu(userHomeViewModel)
+                    OptionsMenu(
+                        userHomeViewModel = userHomeViewModel,
+                        onNavigateToLogin = onNavigateToLogin
+                    )
                 }
             )
         },

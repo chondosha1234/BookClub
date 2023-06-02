@@ -47,7 +47,8 @@ class UserHomeViewModel(
     }
 
     suspend fun addFriend(userId: UUID) {
-        _friends.value = repository.addFriend(userId)
+        repository.addFriend(userId)
+        _friends.value = repository.getFriendsList()
     }
 
     fun searchUserList(query: String) {
@@ -57,7 +58,8 @@ class UserHomeViewModel(
     }
 
     suspend fun removeFriend(userId: UUID) {
-        _friends.value = repository.removeFriend(userId)
+        repository.removeFriend(userId)
+        _friends.value = repository.getFriendsList()
     }
 
     suspend fun setProfilePicture() {

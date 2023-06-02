@@ -17,6 +17,7 @@
 
     <string name="search">Search</string>
     <string name="add_friend">Add Friend</string>
+    <string name="add_friend_confirmation">Are you sure you want to add friend?</string>
 
     <string name="add_conversation">Add Conversation</string>
     <string name="create_conversation">Create Conversation</string>

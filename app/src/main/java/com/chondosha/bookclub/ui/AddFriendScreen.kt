@@ -84,7 +84,11 @@ fun AddFriendScreen(
                     } else {
                         LazyColumn {
                             items(userList!!) { user ->
-                                Text(user.username)
+                                AddFriendCell(
+                                    user = user,
+                                    userHomeViewModel = userHomeViewModel,
+                                    onNavigateToHome = onNavigateToHome
+                                )
                             }
                         }
 

@@ -38,7 +38,7 @@ fun GroupScreen(
     modifier: Modifier = Modifier,
     onNavigateToConversation: (conversationId: UUID) -> Unit,
     onNavigateToCreateConversation: (groupId: String) -> Unit,
-    onNavigateToAddMember: () -> Unit,
+    onNavigateToAddMember: (groupId: UUID) -> Unit,
     groupViewModel : GroupViewModel = viewModel(
         factory = GroupViewModelFactory(LocalGroupRepository.current, groupId)
     )
@@ -189,7 +189,7 @@ fun MemberList(
     members: List<User>?,
     modifier: Modifier = Modifier,
     groupViewModel: GroupViewModel,
-    onNavigateToAddMember: () -> Unit
+    onNavigateToAddMember: (groupId: UUID) -> Unit
 ) {
     LazyColumn(
         modifier = modifier
@@ -216,7 +216,11 @@ fun MemberList(
         }
     }
     Button(
-        onClick = { onNavigateToAddMember() },
+        onClick = {
+            if (groupId != null) {
+                onNavigateToAddMember(groupId)
+            }
+        },
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 8.dp)

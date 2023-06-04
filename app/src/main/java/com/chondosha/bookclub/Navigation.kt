@@ -89,8 +89,8 @@ fun Navigation(
                 onNavigateToCreateConversation = { groupId ->
                     navController.navigate("create_conversation/${groupId}")
                 },
-                onNavigateToAddMember = {
-                    navController.navigate("add_member")
+                onNavigateToAddMember = { groupId ->
+                    navController.navigate("add_member/${groupId}")
                 }
             )
         }

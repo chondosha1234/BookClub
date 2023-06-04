@@ -17,8 +17,6 @@ class GroupRepository {
     suspend fun getMemberList(groupId: UUID): List<User> = messageServerApi.getMemberList(groupId).users
 
     suspend fun createConversation(bookTitle: String, groupId: UUID): List<Conversation> {
-        val request = CreateConversationRequest(bookTitle, groupId)
-        Log.d("Test", "request in create convo repo func: $request")
         return messageServerApi.createConversation(CreateConversationRequest(bookTitle, groupId)).conversations
     }
 

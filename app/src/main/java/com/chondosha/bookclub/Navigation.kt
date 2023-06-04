@@ -88,6 +88,9 @@ fun Navigation(
                 },
                 onNavigateToCreateConversation = { groupId ->
                     navController.navigate("create_conversation/${groupId}")
+                },
+                onNavigateToAddMember = {
+                    navController.navigate("add_member")
                 }
             )
         }
@@ -109,6 +112,20 @@ fun Navigation(
         ) { backStackEntry ->
             ConversationScreen(
                 conversationId = backStackEntry.arguments?.getString("conversationId")
+            )
+        }
+        composable(
+            "add_member/{groupId}",
+            arguments = listOf(navArgument("groupId") {type = NavType.StringType} )
+        ) { backStackEntry ->
+            AddMemberScreen(
+                groupId = backStackEntry.arguments?.getString("groupId"),
+                onNavigateToLogin = {
+                    navController.navigate("login")
+                },
+                onNavigateToGroup = { groupId ->
+                    navController.navigate("group/${groupId}")
+                }
             )
         }
     }

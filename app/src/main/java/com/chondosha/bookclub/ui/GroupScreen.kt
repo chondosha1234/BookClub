@@ -38,6 +38,7 @@ fun GroupScreen(
     modifier: Modifier = Modifier,
     onNavigateToConversation: (conversationId: UUID) -> Unit,
     onNavigateToCreateConversation: (groupId: String) -> Unit,
+    onNavigateToAddMember: () -> Unit,
     groupViewModel : GroupViewModel = viewModel(
         factory = GroupViewModelFactory(LocalGroupRepository.current, groupId)
     )
@@ -53,7 +54,7 @@ fun GroupScreen(
 
     val imagePainter = rememberAsyncImagePainter(
         model = group?.picture,
-        placeholder = painterResource(R.drawable.ic_launcher_background)  // todo find image
+        placeholder = painterResource(R.drawable.no_picture)  // todo find image
     )
 
     Scaffold(
@@ -135,7 +136,8 @@ fun GroupScreen(
                         .padding(4.dp)
                         .fillMaxWidth()
                         .weight(.9f, fill=true),
-                    groupViewModel = groupViewModel
+                    groupViewModel = groupViewModel,
+                    onNavigateToAddMember = onNavigateToAddMember
                 )
             }
         }
@@ -186,7 +188,8 @@ fun MemberList(
     groupId: UUID?,
     members: List<User>?,
     modifier: Modifier = Modifier,
-    groupViewModel: GroupViewModel
+    groupViewModel: GroupViewModel,
+    onNavigateToAddMember: () -> Unit
 ) {
     LazyColumn(
         modifier = modifier
@@ -211,5 +214,13 @@ fun MemberList(
                 }
             }
         }
+    }
+    Button(
+        onClick = { onNavigateToAddMember() },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 8.dp)
+    ){
+        Text(text = stringResource(R.string.add_member))
     }
 }

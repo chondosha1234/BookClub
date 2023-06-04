@@ -42,8 +42,10 @@ class GroupViewModel(
         }
     }
 
-    suspend fun addMember(groupId: UUID, userId: UUID) {
-        _group.value = repository.addMember(groupId, userId)
+    fun addMember(groupId: UUID, userId: UUID) {
+        viewModelScope.launch {
+            _group.value = repository.addMember(groupId, userId)
+        }
     }
 
     suspend fun removeMember(groupId: UUID, userId: UUID) {

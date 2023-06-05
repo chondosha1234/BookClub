@@ -31,7 +31,7 @@ class LoginRepository {
                 if (tokenResponse != null) {
                     val authToken = tokenResponse.token.key
                     SharedPreferencesManager.saveAuthToken(context, authToken)
-                    //setFcmToken()
+                    setFcmToken()
                     Result.success(tokenResponse)
                 } else {
                     Result.failure(Exception("Login response body is null"))
@@ -47,6 +47,7 @@ class LoginRepository {
 
     private suspend fun setFcmToken() {
         val token = FirebaseMessaging.getInstance().token.await()
+        Log.d("fcm", "FCM token generated: $token")
         messageServerApi.setFcmToken(FcmTokenRequest(token))
     }
 

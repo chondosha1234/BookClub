@@ -21,6 +21,7 @@ data class FcmTokenRequest(
 
 data class SendMessageRequest(
     @SerializedName("sender") val sender: UUID?,
+    @SerializedName("sender_username") val sender_username: String?,
     @SerializedName("conversation") val conversation: UUID?,
     @SerializedName("text") val text: String
 )

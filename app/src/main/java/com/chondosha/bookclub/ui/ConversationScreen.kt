@@ -32,8 +32,6 @@ fun ConversationScreen(
         factory = ConversationViewModelFactory(LocalConversationRepository.current, conversationId)
     )
 ) {
-
-    val coroutineScope = rememberCoroutineScope()
     val navController = rememberNavController()
 
     val conversation by conversationViewModel.conversation.collectAsState()
@@ -88,9 +86,7 @@ fun ConversationScreen(
                     Button(
                         shape = CircleShape,
                         onClick = {
-                            coroutineScope.launch {
-                                conversationViewModel.sendMessage(message.value)
-                            }
+                            conversationViewModel.sendMessage(message.value)
                             message.value = ""
                         },
                         modifier = Modifier.padding(4.dp)

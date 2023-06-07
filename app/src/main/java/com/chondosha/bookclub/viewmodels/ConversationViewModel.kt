@@ -37,8 +37,14 @@ class ConversationViewModel(
         }
     }
 
-    suspend fun sendMessage(text: String) {
-        _messages.value = repository.sendMessage(user.value?.id, conversation.value?.id, text)
+    fun sendMessage(text: String) {
+        viewModelScope.launch {
+            _messages.value = repository.sendMessage(user.value?.id, user.value?.username, conversation.value?.id, text)
+        }
+    }
+
+    suspend fun getMessages() {
+        _messages.value = repository.getMessages(conversation.value!!.id)
     }
 
     suspend fun setConversationPicture(conversationId: UUID) {

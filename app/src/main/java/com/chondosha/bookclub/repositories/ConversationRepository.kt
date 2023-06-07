@@ -18,8 +18,8 @@ class ConversationRepository {
 
     suspend fun getMessages(conversationId: UUID): List<Message> = messageServerApi.getMessages(conversationId).messages
 
-    suspend fun sendMessage(userId: UUID?, conversationId: UUID?, text: String): List<Message> =
-        messageServerApi.sendMessage(SendMessageRequest(userId, conversationId, text)).messages
+    suspend fun sendMessage(userId: UUID?, username: String?, conversationId: UUID?, text: String): List<Message> =
+        messageServerApi.sendMessage(SendMessageRequest(userId, username, conversationId, text)).messages
 
     suspend fun setConversationPicture(conversationId: UUID): Conversation = messageServerApi.setConversationPicture(conversationId).conversations[0]
 }

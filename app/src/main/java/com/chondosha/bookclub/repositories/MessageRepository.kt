@@ -9,8 +9,9 @@ class MessageRepository {
 
     private var messageServerApi: MessageServerApi = ApiServiceFactory.createMessageServerApi()
 
+    /*
     suspend fun sendMessage(userId: UUID, conversationId: UUID, text: String): List<Message> =
         messageServerApi.sendMessage(SendMessageRequest(userId, conversationId, text)).messages
-
+     */
     suspend fun getMessages(conversationId: UUID): List<Message> = messageServerApi.getMessages(conversationId).messages
 }

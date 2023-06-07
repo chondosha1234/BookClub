@@ -18,7 +18,7 @@ fun MessageCell(
        modifier = modifier,
    ) {
        Text(
-           text = stringResource(R.string.sender_name, message.sender)
+           text = stringResource(R.string.sender_name, message.sender_username)
        )
 
        Text(

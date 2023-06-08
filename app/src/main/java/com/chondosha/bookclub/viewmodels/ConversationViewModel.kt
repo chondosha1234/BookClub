@@ -39,7 +39,8 @@ class ConversationViewModel(
 
     fun sendMessage(text: String) {
         viewModelScope.launch {
-            _messages.value = repository.sendMessage(user.value?.id, user.value?.username, conversation.value?.id, text)
+            repository.sendMessage(user.value?.id, user.value?.username, conversation.value?.id, text)
+            _messages.value = repository.getMessages(conversation.value!!.id)
         }
     }
 

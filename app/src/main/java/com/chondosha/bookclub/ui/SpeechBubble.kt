@@ -19,6 +19,8 @@ fun SpeechBubble(
     backgroundColor: Color,
     contentColor: Color,
     modifier: Modifier = Modifier,
+    side: Alignment,
+    direction: TriangleDirection,
     content: @Composable () -> Unit,
 ) {
     Box(
@@ -37,9 +39,9 @@ fun SpeechBubble(
 
         Box(
             modifier = Modifier
-                .align(Alignment.BottomEnd)
+                .align(side)
                 .size(10.dp)
-                .clip(TriangleShape(direction = TriangleDirection.BottomEnd))
+                .clip(TriangleShape(direction = direction))
                 .background(backgroundColor)
         )
     }
@@ -54,7 +56,7 @@ fun TriangleShape(direction: TriangleDirection): Shape = GenericShape { size, _ 
             lineTo(size.width, 0f)
         }
         TriangleDirection.BottomStart -> {
-            lineTo(size.width, size.height)
+            lineTo(0f, size.height)
             lineTo(0f, 0f)
         }
     }

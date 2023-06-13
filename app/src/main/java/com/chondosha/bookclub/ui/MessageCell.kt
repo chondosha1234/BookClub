@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -29,7 +30,9 @@ fun MessageCell(
         SpeechBubble(
             backgroundColor = Color.DarkGray,
             contentColor = Color.Black,
-            modifier = Modifier.padding(4.dp)
+            modifier = Modifier.padding(4.dp),
+            side = if (isCurrentUser) Alignment.BottomEnd else Alignment.BottomStart,
+            direction = if (isCurrentUser) TriangleDirection.BottomEnd else TriangleDirection.BottomStart
         ) {
             Column(
                 modifier = Modifier,

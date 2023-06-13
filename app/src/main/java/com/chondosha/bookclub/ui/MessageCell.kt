@@ -37,10 +37,11 @@ fun MessageCell(
             Column(
                 modifier = Modifier,
             ) {
-                Text(
-                    text = stringResource(R.string.sender_name, message.sender_username)
-                )
-
+                if (!isCurrentUser) {
+                    Text(
+                        text = stringResource(R.string.sender_name, message.sender_username)
+                    )
+                }
                 Text(
                     text = stringResource(R.string.message_text, message.text)
                 )

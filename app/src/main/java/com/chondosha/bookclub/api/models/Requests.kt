@@ -16,7 +16,7 @@ data class CreateAccountRequest(
 )
 
 data class FcmTokenRequest(
-    @SerializedName("fcm_token") val token: String
+    @SerializedName("fcm_token") val fcm_token: String
 )
 
 data class SendMessageRequest(

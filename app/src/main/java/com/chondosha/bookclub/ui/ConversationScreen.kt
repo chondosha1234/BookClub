@@ -20,9 +20,9 @@ import androidx.navigation.compose.rememberNavController
 import com.chondosha.bookclub.LocalConversationRepository
 import com.chondosha.bookclub.R
 import com.chondosha.bookclub.api.models.Message
+import com.chondosha.bookclub.api.models.User
 import com.chondosha.bookclub.viewmodels.ConversationViewModel
 import com.chondosha.bookclub.viewmodels.ConversationViewModelFactory
-import kotlinx.coroutines.launch
 
 @Composable
 fun ConversationScreen(
@@ -34,6 +34,7 @@ fun ConversationScreen(
 ) {
     val navController = rememberNavController()
 
+    val user by conversationViewModel.user.collectAsState()
     val conversation by conversationViewModel.conversation.collectAsState()
     val messages by conversationViewModel.messages.collectAsState()
 
@@ -65,11 +66,12 @@ fun ConversationScreen(
                 modifier = modifier.padding(padding)
             ) {
                 MessageList(
+                    user = user,
                     messages = messages,
                     modifier = modifier
                         .padding(4.dp)
                         .fillMaxWidth()
-                        .weight(1f, fill=true)
+                        .weight(1f, fill = true)
                 )
 
                 Row(
@@ -107,11 +109,14 @@ fun ConversationScreen(
 
 @Composable
 fun MessageList(
+    user: User?,
     messages: List<Message>?,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
-        modifier = modifier.padding(16.dp).fillMaxWidth(),
+        modifier = modifier
+            .padding(16.dp)
+            .fillMaxWidth(),
         reverseLayout = true,
     ) {
         if (messages != null) {
@@ -126,6 +131,7 @@ fun MessageList(
             } else {
                 items(messages) { message ->
                     MessageCell(
+                        user = user,
                         message = message,
                     )
                 }

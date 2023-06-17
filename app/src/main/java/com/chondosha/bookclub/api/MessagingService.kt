@@ -1,11 +1,21 @@
 package com.chondosha.bookclub.api
 
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Build
 import android.util.Log
+import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.*
-import com.chondosha.bookclub.viewmodels.ConversationViewModel
+import com.chondosha.bookclub.R
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import java.util.*
+import android.Manifest
 
 class MessagingService : FirebaseMessagingService(), LifecycleObserver {
 
@@ -42,6 +52,35 @@ class MessagingService : FirebaseMessagingService(), LifecycleObserver {
             val body = remoteMessage.notification?.body
             Log.d("fcm", "Value of notification title: $title")
             Log.d("fcm", "Value of notification body: $body")
+
+            val hasNotificationPermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.VIBRATE) == PackageManager.PERMISSION_GRANTED
+
+            if (hasNotificationPermission) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    val channelId = getString(R.string.message_notification_channel_id)
+                    val channelName = getString(R.string.message_notification_channel_name)
+                    val importance = NotificationManager.IMPORTANCE_HIGH
+                    val channel = NotificationChannel(channelId, channelName, importance)
+                    val notificationManager =
+                        getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                    notificationManager.createNotificationChannel(channel)
+                }
+
+                val notificationBuilder = NotificationCompat.Builder(
+                    this,
+                    getString(R.string.message_notification_channel_id)
+                )
+                    .setSmallIcon(R.drawable.message_notification)
+                    .setContentTitle(title)
+                    .setContentText(body)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setAutoCancel(true)
+
+
+                with(NotificationManagerCompat.from(this)) {
+                    notify(generateNotificationId(), notificationBuilder.build())
+                }
+            }
         }
         /*
         if (isAppInForeground && onConversationScreen) {
@@ -51,6 +90,11 @@ class MessagingService : FirebaseMessagingService(), LifecycleObserver {
             // send notification to tray
         }
          */
+    }
+
+    private fun generateNotificationId(): Int {
+        val timestamp = Calendar.getInstance().timeInMillis
+        return timestamp.toInt()
     }
 
     private inner class AppLifecycleObserver : DefaultLifecycleObserver {

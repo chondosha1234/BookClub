@@ -1,5 +1,6 @@
 package com.chondosha.bookclub
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -13,8 +14,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.chondosha.bookclub.ui.theme.BookClubTheme
 
 class MainActivity : ComponentActivity() {
+
+    private lateinit var notificationListenerIntent: Intent
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        notificationListenerIntent = Intent(this, NotificationListener::class.java)
+        startService(notificationListenerIntent)
+
         setContent {
             BookClubTheme {
                 // A surface container using the 'background' color from the theme
@@ -28,5 +35,10 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        stopService(notificationListenerIntent)
     }
 }

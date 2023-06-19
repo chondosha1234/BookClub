@@ -48,4 +48,6 @@
 
     <string name="message_notification_channel_id">New Message</string>
     <string name="message_notification_channel_name">New Messages</string>
+    <string name="message_notification_body">You have 1 new messages!</string>
+    <string name="messages_notification_body">You have %1$s new messages!</string>
 </resources>

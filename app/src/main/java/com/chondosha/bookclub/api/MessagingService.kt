@@ -6,7 +6,6 @@ import android.app.NotificationManager
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
-import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -16,11 +15,12 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import java.util.*
 import android.Manifest
+import android.app.PendingIntent
+import android.content.Intent
+import com.chondosha.bookclub.MainActivity
+import com.chondosha.bookclub.SharedPreferencesManager
 
 class MessagingService : FirebaseMessagingService(), LifecycleObserver {
-
-    private var isAppInForeground = false
-    private var onConversationScreen = true
 
     override fun onCreate() {
         super.onCreate()
@@ -32,26 +32,13 @@ class MessagingService : FirebaseMessagingService(), LifecycleObserver {
         ProcessLifecycleOwner.get().lifecycle.removeObserver(this)
     }
 
-    /*
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    fun onForegroundStart() {
-        isAppInForeground = true
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    fun onForegroundStop() {
-        isAppInForeground = false
-    }
-
-     */
-
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
+
+        val context = applicationContext
 
         if (remoteMessage.notification != null) {
             val title = remoteMessage.notification?.title
             val body = remoteMessage.notification?.body
-            Log.d("fcm", "Value of notification title: $title")
-            Log.d("fcm", "Value of notification body: $body")
 
             val hasNotificationPermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.VIBRATE) == PackageManager.PERMISSION_GRANTED
 
@@ -66,30 +53,36 @@ class MessagingService : FirebaseMessagingService(), LifecycleObserver {
                     notificationManager.createNotificationChannel(channel)
                 }
 
+                val notificationCount = SharedPreferencesManager.getNotificationCount(context)
+                SharedPreferencesManager.changeNotificationCount(context, notificationCount + 1)
+
+                val intent = Intent(context, MainActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_ONE_SHOT)
+
+
                 val notificationBuilder = NotificationCompat.Builder(
                     this,
                     getString(R.string.message_notification_channel_id)
                 )
                     .setSmallIcon(R.drawable.message_notification)
                     .setContentTitle(title)
-                    .setContentText(body)
+                    .setContentText(
+                        if (notificationCount < 1){
+                            getString(R.string.message_notification_body)
+                        } else {
+                            getString(R.string.messages_notification_body, (notificationCount + 1).toString())
+                        }
+                    )
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setAutoCancel(true)
-
+                    .setContentIntent(pendingIntent)
 
                 with(NotificationManagerCompat.from(this)) {
-                    notify(generateNotificationId(), notificationBuilder.build())
+                    notify(0, notificationBuilder.build())
                 }
             }
         }
-        /*
-        if (isAppInForeground && onConversationScreen) {
-            val conversationModel: ConversationViewModel? = null
-            //conversationModel.getMessages()
-        } else {
-            // send notification to tray
-        }
-         */
     }
 
     private fun generateNotificationId(): Int {
@@ -97,18 +90,4 @@ class MessagingService : FirebaseMessagingService(), LifecycleObserver {
         return timestamp.toInt()
     }
 
-    private inner class AppLifecycleObserver : DefaultLifecycleObserver {
-
-        override fun onStart(owner: LifecycleOwner) {
-            isAppInForeground = true
-        }
-
-        override fun onStop(owner: LifecycleOwner) {
-            isAppInForeground = false
-        }
-    }
-
-    fun setConversationScreenFlag(onScreen: Boolean) {
-        onConversationScreen = onScreen
-    }
 }

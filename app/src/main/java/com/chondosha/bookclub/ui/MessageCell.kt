@@ -1,7 +1,6 @@
 package com.chondosha.bookclub.ui
 
 
-import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -21,7 +20,6 @@ fun MessageCell(
     modifier: Modifier = Modifier,
 ) {
     val isCurrentUser = user?.username == message.sender_username
-    Log.d("arrangement", "value of isCurrentUser: $isCurrentUser")
 
     Row(
         modifier = Modifier.fillMaxWidth(),

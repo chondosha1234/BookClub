@@ -1,7 +1,9 @@
 package com.chondosha.bookclub
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,12 +17,10 @@ import com.chondosha.bookclub.ui.theme.BookClubTheme
 
 class MainActivity : ComponentActivity() {
 
-    private lateinit var notificationListenerIntent: Intent
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        notificationListenerIntent = Intent(this, NotificationListener::class.java)
-        startService(notificationListenerIntent)
+        val context = applicationContext
+        SharedPreferencesManager.changeNotificationCount(context, 0)
 
         setContent {
             BookClubTheme {
@@ -37,8 +37,9 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        stopService(notificationListenerIntent)
+    override fun onStart() {
+        super.onStart()
+        val context = applicationContext
+        SharedPreferencesManager.changeNotificationCount(context, 0)
     }
 }

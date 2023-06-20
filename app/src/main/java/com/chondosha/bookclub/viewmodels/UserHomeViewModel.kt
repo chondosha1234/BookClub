@@ -1,5 +1,6 @@
 package com.chondosha.bookclub.viewmodels
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -66,8 +67,8 @@ class UserHomeViewModel(
         _user.value = repository.setProfilePicture().users[0]
     }
 
-    suspend fun logout() {
-        repository.logout()
+    suspend fun logout(context: Context) {
+        repository.logout(context)
     }
 }
 

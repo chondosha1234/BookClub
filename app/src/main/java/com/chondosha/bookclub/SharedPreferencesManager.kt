@@ -7,15 +7,28 @@ import android.util.Log
 object SharedPreferencesManager {
     private const val PREF_NAME = "Preferences"
     private const val AUTH_TOKEN = "AuthToken"
+    private const val LOGGED_IN = "LoggedIn"
     private const val NOTIFICATION_COUNT = "NotificationCount"
 
     private fun getSharedPreferences(context: Context):  SharedPreferences {
         return context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
     }
 
+    fun isLoggedIn(context: Context) : Boolean {
+        val editor = getSharedPreferences(context)
+        return editor.getBoolean(LOGGED_IN, false)
+    }
+
+    fun logout(context: Context) {
+        val editor = getSharedPreferences(context).edit()
+        editor.putBoolean(LOGGED_IN, false)
+        editor.apply()
+    }
+
     fun saveAuthToken(context: Context, token: String) {
         val editor = getSharedPreferences(context).edit()
         editor.putString(AUTH_TOKEN, token)
+        editor.putBoolean(LOGGED_IN, true)
         editor.apply()
     }
 

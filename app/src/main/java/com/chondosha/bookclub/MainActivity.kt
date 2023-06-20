@@ -17,10 +17,15 @@ import com.chondosha.bookclub.ui.theme.BookClubTheme
 
 class MainActivity : ComponentActivity() {
 
+    private var isLoggedIn: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         val context = applicationContext
         SharedPreferencesManager.changeNotificationCount(context, 0)
+
+        isLoggedIn = SharedPreferencesManager.isLoggedIn(context)
 
         setContent {
             BookClubTheme {
@@ -30,7 +35,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
                    ProvideRepository {
-                       Navigation()
+                       Navigation(isLoggedIn = isLoggedIn)
                    }
                 }
             }

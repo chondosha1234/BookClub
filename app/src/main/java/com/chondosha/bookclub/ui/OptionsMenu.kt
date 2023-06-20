@@ -3,6 +3,7 @@ package com.chondosha.bookclub.ui
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -20,6 +21,7 @@ fun OptionsMenu(
 ) {
 
     val coroutineScope = rememberCoroutineScope()
+    val context = LocalContext.current
 
     var expanded by remember { mutableStateOf(false) }
 
@@ -45,7 +47,7 @@ fun OptionsMenu(
 
         DropdownMenuItem(onClick = {
             coroutineScope.launch {
-                userHomeViewModel.logout()
+                userHomeViewModel.logout(context)
                 onNavigateToLogin()
             }
         }) {

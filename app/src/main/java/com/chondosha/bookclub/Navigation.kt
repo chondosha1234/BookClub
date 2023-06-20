@@ -17,7 +17,8 @@ import com.chondosha.bookclub.viewmodels.UserHomeViewModelFactory
 fun Navigation(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    startDestination: String = "login"
+    isLoggedIn: Boolean,
+    startDestination: String = if (isLoggedIn) "user_home" else "login"
 ) {
     NavHost(
         modifier = modifier,
@@ -25,14 +26,18 @@ fun Navigation(
         startDestination = startDestination
     ) {
         composable("login"){
-            LoginScreen(
-                onNavigateToHome = {
-                    navController.navigate("user_home")
-                },
-                onNavigateToCreateAccount = {
-                    navController.navigate("create_account")
-                }
-            )
+            if (isLoggedIn) {
+                navController.navigate("user_home")
+            } else {
+                LoginScreen(
+                    onNavigateToHome = {
+                        navController.navigate("user_home")
+                    },
+                    onNavigateToCreateAccount = {
+                        navController.navigate("create_account")
+                    }
+                )
+            }
         }
         composable("create_account") {
             CreateAccountScreen(

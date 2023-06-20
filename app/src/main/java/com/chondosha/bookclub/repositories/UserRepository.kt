@@ -18,7 +18,10 @@ class UserRepository {
 
     private var messageServerApi: MessageServerApi = ApiServiceFactory.createMessageServerApi()
 
-    suspend fun logout(): Unit = messageServerApi.logout()
+    suspend fun logout(context: Context): Unit {
+        messageServerApi.logout()
+        SharedPreferencesManager.logout(context)
+    }
 
     suspend fun getCurrentUser(): User {
         Log.d("Test", "Inside get current user repo func")

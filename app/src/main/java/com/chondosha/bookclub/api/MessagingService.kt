@@ -57,9 +57,8 @@ class MessagingService : FirebaseMessagingService(), LifecycleObserver {
                 SharedPreferencesManager.changeNotificationCount(context, notificationCount + 1)
 
                 val intent = Intent(context, MainActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
                 val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_ONE_SHOT)
-
 
                 val notificationBuilder = NotificationCompat.Builder(
                     this,

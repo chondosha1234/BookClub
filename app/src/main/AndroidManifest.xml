@@ -28,6 +28,10 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".NotificationClickHandler"
+            android:exported="false" />
+
         <service
             android:name=".api.MessagingService"
             android:exported="false">

@@ -17,7 +17,9 @@ import java.util.*
 import android.Manifest
 import android.app.PendingIntent
 import android.content.Intent
+import android.util.Log
 import com.chondosha.bookclub.MainActivity
+import com.chondosha.bookclub.NotificationClickHandler
 import com.chondosha.bookclub.SharedPreferencesManager
 
 class MessagingService : FirebaseMessagingService(), LifecycleObserver {
@@ -56,7 +58,13 @@ class MessagingService : FirebaseMessagingService(), LifecycleObserver {
                 val notificationCount = SharedPreferencesManager.getNotificationCount(context)
                 SharedPreferencesManager.changeNotificationCount(context, notificationCount + 1)
 
+                /*
                 val intent = Intent(context, MainActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_ONE_SHOT)
+                 */
+                Log.d("context", "context in messaging service: $context")
+                val intent = Intent(context, NotificationClickHandler::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
                 val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_ONE_SHOT)
 

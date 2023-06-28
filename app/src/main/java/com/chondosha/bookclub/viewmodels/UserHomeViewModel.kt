@@ -63,8 +63,10 @@ class UserHomeViewModel(
         _friends.value = repository.getFriendsList()
     }
 
-    suspend fun setProfilePicture() {
-        _user.value = repository.setProfilePicture().users[0]
+    fun setProfilePicture(base64Image: String) {
+        viewModelScope.launch {
+            _user.value = repository.setProfilePicture(base64Image).users[0]
+        }
     }
 
     suspend fun logout(context: Context) {

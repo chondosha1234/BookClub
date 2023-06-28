@@ -42,6 +42,6 @@ class UserRepository {
 
     suspend fun removeFriend(userId:UUID): List<User> = messageServerApi.removeFriend(userId).users
 
-    suspend fun setProfilePicture() = messageServerApi.setProfilePicture()
+    suspend fun setProfilePicture(base64Image: String) = messageServerApi.setProfilePicture(UserProfilePictureRequest(base64Image))
 
 }

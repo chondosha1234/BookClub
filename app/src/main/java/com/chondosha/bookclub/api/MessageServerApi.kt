@@ -69,7 +69,7 @@ interface MessageServerApi {
     suspend fun getCurrentUser(): UserResponse
 
     @POST("users/set_picture")
-    suspend fun setProfilePicture(): UserResponse
+    suspend fun setProfilePicture(@Body userProfilePictureRequest: UserProfilePictureRequest): UserResponse
 
     @GET("users/groups")
     suspend fun getGroupList(): GroupResponse

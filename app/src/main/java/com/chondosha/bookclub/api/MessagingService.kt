@@ -18,7 +18,6 @@ import android.Manifest
 import android.app.PendingIntent
 import android.content.Intent
 import android.util.Log
-import com.chondosha.bookclub.MainActivity
 import com.chondosha.bookclub.NotificationClickHandler
 import com.chondosha.bookclub.SharedPreferencesManager
 

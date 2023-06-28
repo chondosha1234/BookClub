@@ -43,8 +43,6 @@ object SharedPreferencesManager {
     }
 
     fun changeNotificationCount(context: Context, count: Int) {
-        Log.d("notification", "inside shared preferences change")
-        Log.d("notification", "count: $count")
         val editor = getSharedPreferences(context).edit()
         editor.putInt(NOTIFICATION_COUNT, count)
         editor.apply()
@@ -52,8 +50,6 @@ object SharedPreferencesManager {
 
     fun getNotificationCount(context: Context) : Int {
         val editor = getSharedPreferences(context)
-        Log.d("notification", "inside shared preferences get")
-        Log.d("notification", "getInt count: ${editor.getInt(NOTIFICATION_COUNT, 0)}")
         return editor.getInt(NOTIFICATION_COUNT, 0)
     }
 }

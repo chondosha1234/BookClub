@@ -2,16 +2,9 @@ package com.chondosha.bookclub.repositories
 
 import android.content.Context
 import android.util.Log
-import androidx.compose.ui.platform.LocalContext
 import com.chondosha.bookclub.SharedPreferencesManager
 import com.chondosha.bookclub.api.*
 import com.chondosha.bookclub.api.models.*
-import com.chondosha.bookclub.api.responses.TokenResponse
-import com.chondosha.bookclub.api.responses.UserResponse
-import com.google.firebase.messaging.FirebaseMessaging
-import com.google.gson.Gson
-import kotlinx.coroutines.tasks.await
-import org.json.JSONObject
 import java.util.UUID
 
 class UserRepository {

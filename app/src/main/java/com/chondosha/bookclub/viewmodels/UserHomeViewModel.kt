@@ -32,11 +32,9 @@ class UserHomeViewModel(
 
     init {
         viewModelScope.launch {
-            Log.d("Test", "inside user home view model init")
             _user.value = repository.getCurrentUser()
-            Log.d("Test", "user view model after get current user")
+            Log.d("picture", "value of user picture variable: ${_user.value!!.picture}")
             _groups.value = repository.getGroupList()
-            Log.d("Test", "user view model after get group list")
             _friends.value = repository.getFriendsList()
         }
     }

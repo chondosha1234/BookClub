@@ -1,7 +1,10 @@
 package com.chondosha.bookclub.ui
 
 import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -26,6 +29,8 @@ import com.chondosha.bookclub.api.models.User
 import com.chondosha.bookclub.viewmodels.UserHomeViewModel
 import com.chondosha.bookclub.viewmodels.UserHomeViewModelFactory
 import java.util.*
+import com.chondosha.bookclub.BitmapUtils.toBase64
+
 
 @Composable
 fun UserHomeScreen(
@@ -47,12 +52,20 @@ fun UserHomeScreen(
     val friends by userHomeViewModel.friends.collectAsState()
 
     val imagePainter = if (user?.picture != null) {
+        val pictureUrl = user?.picture
+        val imageUrl = "http://$pictureUrl"
         rememberAsyncImagePainter(
-            model = user?.picture,
+            model = imageUrl,
             placeholder = painterResource(R.drawable.no_picture)  // todo find image
         )
     } else {
         painterResource(R.drawable.no_picture)
+    }
+
+    val cameraLauncher = rememberLauncherForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap ->
+        val base64Image = bitmap.toBase64()
+        Log.d("picture", "value of base64Image: $base64Image")
+        userHomeViewModel.setProfilePicture(base64Image)
     }
 
     val selectedItem = remember { mutableStateOf(0)}
@@ -81,6 +94,9 @@ fun UserHomeScreen(
                             .padding(4.dp)
                             .size(24.dp)
                             .clip(CircleShape)
+                            .clickable {
+                                cameraLauncher.launch(null)
+                            }
                     )
                     OptionsMenu(
                         userHomeViewModel = userHomeViewModel,
@@ -121,7 +137,7 @@ fun UserHomeScreen(
                     modifier = Modifier
                         .padding(4.dp)
                         .fillMaxWidth()
-                        .weight(.9f, fill=true)
+                        .weight(.9f, fill = true)
                 )
             }
             1 -> Column(
@@ -137,7 +153,7 @@ fun UserHomeScreen(
                     modifier = Modifier
                         .padding(4.dp)
                         .fillMaxWidth()
-                        .weight(.9f, fill=true)
+                        .weight(.9f, fill = true)
                 )
             }
         }

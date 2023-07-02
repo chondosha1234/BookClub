@@ -1,11 +1,9 @@
 package com.chondosha.bookclub.api
 
-import android.util.Log
+
 import com.chondosha.bookclub.api.models.*
 import com.chondosha.bookclub.api.responses.*
-import com.google.gson.annotations.SerializedName
 import retrofit2.Response
-
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST

@@ -52,10 +52,8 @@ fun UserHomeScreen(
     val friends by userHomeViewModel.friends.collectAsState()
 
     val imagePainter = if (user?.picture != null) {
-        val pictureUrl = user?.picture
-        val imageUrl = "http://$pictureUrl"
         rememberAsyncImagePainter(
-            model = imageUrl,
+            model = user?.picture,
             placeholder = painterResource(R.drawable.no_picture)  // todo find image
         )
     } else {

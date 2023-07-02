@@ -13,6 +13,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
@@ -68,6 +69,17 @@ fun UserHomeScreen(
 
     val selectedItem = remember { mutableStateOf(0)}
 
+    val pictureBeingViewed = remember { mutableStateOf(false) }
+
+    if (pictureBeingViewed.value) {
+        PictureDialog(
+            imagePainter = imagePainter,
+            onDismissRequest = {
+                pictureBeingViewed.value = false
+            }
+        )
+    }
+
     Scaffold(
         modifier = modifier,
         topBar = {
@@ -93,7 +105,8 @@ fun UserHomeScreen(
                             .size(24.dp)
                             .clip(CircleShape)
                             .clickable {
-                                cameraLauncher.launch(null)
+                                pictureBeingViewed.value = true
+                                //cameraLauncher.launch(null)
                             }
                     )
                     OptionsMenu(

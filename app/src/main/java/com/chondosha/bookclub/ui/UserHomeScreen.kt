@@ -55,7 +55,7 @@ fun UserHomeScreen(
     val imagePainter = if (user?.picture != null) {
         rememberAsyncImagePainter(
             model = user?.picture,
-            placeholder = painterResource(R.drawable.no_picture)  // todo find image
+            placeholder = painterResource(R.drawable.no_picture)
         )
     } else {
         painterResource(R.drawable.no_picture)
@@ -69,13 +69,13 @@ fun UserHomeScreen(
 
     val selectedItem = remember { mutableStateOf(0)}
 
-    val pictureBeingViewed = remember { mutableStateOf(false) }
+    val topPictureBeingViewed = remember { mutableStateOf(false) }
 
-    if (pictureBeingViewed.value) {
+    if (topPictureBeingViewed.value) {
         PictureDialog(
             imagePainter = imagePainter,
             onDismissRequest = {
-                pictureBeingViewed.value = false
+                topPictureBeingViewed.value = false
             }
         )
     }
@@ -105,7 +105,7 @@ fun UserHomeScreen(
                             .size(24.dp)
                             .clip(CircleShape)
                             .clickable {
-                                pictureBeingViewed.value = true
+                                topPictureBeingViewed.value = true
                                 //cameraLauncher.launch(null)
                             }
                     )
@@ -193,7 +193,7 @@ fun GroupList(
                 items(groups) { group ->
                     GroupCell(
                         group = group,
-                        onClickCell = { onNavigateToGroup(group.id) }
+                        onClickCell = { onNavigateToGroup(group.id) },
                     )
                 }
             }

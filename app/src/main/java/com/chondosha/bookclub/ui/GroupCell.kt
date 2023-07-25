@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -24,7 +26,7 @@ import java.io.File
 fun GroupCell(
     group: Group,
     modifier: Modifier = Modifier,
-    onClickCell: () -> Unit
+    onClickCell: () -> Unit,
 ) {
 
     val imagePainter = if (group.picture != null) {
@@ -34,6 +36,17 @@ fun GroupCell(
         )
     } else {
         painterResource(R.drawable.no_picture)
+    }
+
+    val groupPictureBeingViewed = remember { mutableStateOf(false) }
+
+    if (groupPictureBeingViewed.value) {
+        PictureDialog(
+            imagePainter = imagePainter,
+            onDismissRequest = {
+                groupPictureBeingViewed.value = false
+            }
+        )
     }
 
     Row(
@@ -50,6 +63,7 @@ fun GroupCell(
                 .padding(4.dp)
                 .size(24.dp)
                 .clip(CircleShape)
+                .clickable { groupPictureBeingViewed.value = true }
         )
         Column(
             modifier = modifier.padding(8.dp)

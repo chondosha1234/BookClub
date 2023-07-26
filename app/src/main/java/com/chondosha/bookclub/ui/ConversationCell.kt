@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,6 +37,17 @@ fun ConversationCell(
         painterResource(R.drawable.no_picture)
     }
 
+    val conversationPictureBeingViewed = remember { mutableStateOf(false) }
+
+    if (conversationPictureBeingViewed.value) {
+        PictureDialog(
+            imagePainter = imagePainter,
+            onDismissRequest = {
+                conversationPictureBeingViewed.value = false
+            }
+        )
+    }
+
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
@@ -49,6 +62,7 @@ fun ConversationCell(
                 .padding(4.dp)
                 .size(24.dp)
                 .clip(CircleShape)
+                .clickable { conversationPictureBeingViewed.value = true }
         )
         Column(
             modifier = modifier.padding(8.dp)

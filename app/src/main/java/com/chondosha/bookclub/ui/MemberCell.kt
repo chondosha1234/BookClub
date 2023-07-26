@@ -44,6 +44,17 @@ fun MemberCell(
         painterResource(R.drawable.no_picture)
     }
 
+    val memberPictureBeingViewed = remember { mutableStateOf(false) }
+
+    if (memberPictureBeingViewed.value) {
+        PictureDialog(
+            imagePainter = imagePainter,
+            onDismissRequest = {
+                memberPictureBeingViewed.value = false
+            }
+        )
+    }
+
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
@@ -57,6 +68,7 @@ fun MemberCell(
                 .padding(4.dp)
                 .size(24.dp)
                 .clip(CircleShape)
+                .clickable { memberPictureBeingViewed.value = true }
         )
         Column(
             modifier = modifier.padding(8.dp)

@@ -42,6 +42,17 @@ fun FriendCell(
         painterResource(R.drawable.no_picture)
     }
 
+    val friendPictureBeingViewed = remember { mutableStateOf(false) }
+
+    if (friendPictureBeingViewed.value) {
+        PictureDialog(
+            imagePainter = imagePainter,
+            onDismissRequest = {
+                friendPictureBeingViewed.value = false
+            }
+        )
+    }
+
     Row(
     verticalAlignment = Alignment.CenterVertically,
     modifier = modifier
@@ -56,6 +67,7 @@ fun FriendCell(
                 .padding(4.dp)
                 .size(24.dp)
                 .clip(CircleShape)
+                .clickable { friendPictureBeingViewed.value = true }
         )
         Column(
             modifier = modifier.padding(8.dp)

@@ -74,6 +74,8 @@ fun UserHomeScreen(
     if (topPictureBeingViewed.value) {
         PictureDialog(
             imagePainter = imagePainter,
+            cameraLauncher = cameraLauncher,
+            canChangePicture = true,
             onDismissRequest = {
                 topPictureBeingViewed.value = false
             }

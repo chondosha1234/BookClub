@@ -13,7 +13,6 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
@@ -67,19 +66,17 @@ fun UserHomeScreen(
         userHomeViewModel.setProfilePicture(base64Image)
     }
 
-    val selectedItem = remember { mutableStateOf(0)}
-
+    val selectedTab = remember { mutableStateOf(0)}
     val topPictureBeingViewed = remember { mutableStateOf(false) }
 
     if (topPictureBeingViewed.value) {
         PictureDialog(
             imagePainter = imagePainter,
             cameraLauncher = cameraLauncher,
-            canChangePicture = true,
-            onDismissRequest = {
-                topPictureBeingViewed.value = false
-            }
-        )
+            canChangePicture = true
+        ) {
+            topPictureBeingViewed.value = false
+        }
     }
 
     Scaffold(
@@ -122,27 +119,27 @@ fun UserHomeScreen(
         bottomBar = {
             BottomNavigation {
                 BottomNavigationItem(
-                    selected = selectedItem.value == 0,
-                    onClick = { selectedItem.value = 0 },
+                    selected = selectedTab.value == 0,
+                    onClick = { selectedTab.value = 0 },
                     icon = { },  //todo find icon
                     label = { Text(text = "Groups") }
                 )
                 BottomNavigationItem(
-                    selected = selectedItem.value == 1,
-                    onClick = { selectedItem.value = 1 },
+                    selected = selectedTab.value == 1,
+                    onClick = { selectedTab.value = 1 },
                     icon = {},
                     label = { Text(text = "Friends") }
                 )
             }
         }
     ) { innerPadding ->
-        when (selectedItem.value) {
+        when (selectedTab.value) {
             0 -> Column(
                 modifier = Modifier
                     .padding(innerPadding)
                     .fillMaxSize()
             ) {
-                Log.d("Test", "Inside composable when block 0 selectedItem")
+                Log.d("Test", "Inside composable when block 0 selectedTab")
                 GroupList(
                     groups = groups,
                     onNavigateToGroup = onNavigateToGroup,
@@ -158,7 +155,7 @@ fun UserHomeScreen(
                     .padding(innerPadding)
                     .fillMaxSize()
             ) {
-                Log.d("Test", "Inside composable when block 1 selectedItem")
+                Log.d("Test", "Inside composable when block 1 selectedTab")
                 FriendList(
                     friends = friends,
                     userHomeViewModel = userHomeViewModel,

@@ -1,10 +1,7 @@
 package com.chondosha.bookclub.repositories
 
-import com.chondosha.bookclub.api.models.Conversation
 import com.chondosha.bookclub.api.MessageServerApi
-import com.chondosha.bookclub.api.models.Message
-import com.chondosha.bookclub.api.models.SendMessageRequest
-import com.chondosha.bookclub.api.models.User
+import com.chondosha.bookclub.api.models.*
 import com.chondosha.bookclub.api.responses.MessageResponse
 import java.util.*
 
@@ -21,5 +18,8 @@ class ConversationRepository {
     suspend fun sendMessage(userId: UUID?, username: String?, conversationId: UUID?, text: String): List<Message> =
         messageServerApi.sendMessage(SendMessageRequest(userId, username, conversationId, text)).messages
 
-    suspend fun setConversationPicture(conversationId: UUID): Conversation = messageServerApi.setConversationPicture(conversationId).conversations[0]
+    suspend fun setConversationPicture(conversationId: UUID, base64Image: String): Conversation {
+        return messageServerApi.setConversationPicture(ConversationPictureRequest(conversationId, base64Image)).conversations[0]
+    }
+
 }

@@ -28,8 +28,8 @@ interface MessageServerApi {
     @GET("groups/{groupId}/get_member_list")
     suspend fun getMemberList(@Path("groupId") groupId: UUID): UserResponse
 
-    @POST("groups/{groupId}/set_picture")
-    suspend fun setGroupPicture(@Path("groupId") groupId: UUID): GroupResponse
+    @POST("groups/set_picture")
+    suspend fun setGroupPicture(@Body groupPictureRequest: GroupPictureRequest): GroupResponse
 
     @POST("groups/{groupId}/{userId}/add_member")
     suspend fun addMember(@Path("groupId") groupId: UUID, @Path("userId") userId: UUID): GroupResponse
@@ -47,8 +47,8 @@ interface MessageServerApi {
     @GET("groups/{groupId}/conversations")
     suspend fun getConversationList(@Path("groupId") groupId: UUID): ConversationResponse
 
-    @POST("groups/conversation/{conversationId}/set_picture")
-    suspend fun setConversationPicture(@Path("conversationId") conversationId: UUID): ConversationResponse
+    @POST("groups/conversation/set_picture")
+    suspend fun setConversationPicture(@Body conversationPictureRequest: ConversationPictureRequest): ConversationResponse
 
 
     @POST("login")

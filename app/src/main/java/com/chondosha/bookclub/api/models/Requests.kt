@@ -38,3 +38,13 @@ data class CreateConversationRequest(
 data class UserProfilePictureRequest(
     @SerializedName("picture") val picture: String
 )
+
+data class GroupPictureRequest(
+    @SerializedName("groupId") val groupId: UUID,
+    @SerializedName("picture") val picture: String
+)
+
+data class ConversationPictureRequest(
+    @SerializedName("conversationId") val conversationId: UUID,
+    @SerializedName("picture") val picture: String
+)

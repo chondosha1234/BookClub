@@ -1,11 +1,8 @@
 package com.chondosha.bookclub.repositories
 
 import android.util.Log
-import com.chondosha.bookclub.api.models.Group
 import com.chondosha.bookclub.api.MessageServerApi
-import com.chondosha.bookclub.api.models.Conversation
-import com.chondosha.bookclub.api.models.CreateConversationRequest
-import com.chondosha.bookclub.api.models.User
+import com.chondosha.bookclub.api.models.*
 import java.util.*
 
 class GroupRepository {
@@ -26,5 +23,7 @@ class GroupRepository {
 
     suspend fun removeMember(groupId: UUID, userId: UUID): Group = messageServerApi.removeMember(groupId, userId).groups[0]
 
-    suspend fun setGroupPicture(groupId: UUID): Group = messageServerApi.setGroupPicture(groupId).groups[0]
+    suspend fun setGroupPicture(groupId: UUID, base64Image: String): Group {
+        return messageServerApi.setGroupPicture(GroupPictureRequest(groupId, base64Image)).groups[0]
+    }
 }

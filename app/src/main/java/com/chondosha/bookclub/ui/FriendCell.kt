@@ -9,17 +9,14 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.core.net.toUri
 import coil.compose.rememberAsyncImagePainter
 import com.chondosha.bookclub.R
 import com.chondosha.bookclub.api.models.User
 import com.chondosha.bookclub.viewmodels.UserHomeViewModel
 import kotlinx.coroutines.launch
-import java.io.File
 
 @Composable
 fun FriendCell(
@@ -47,10 +44,11 @@ fun FriendCell(
     if (friendPictureBeingViewed.value) {
         PictureDialog(
             imagePainter = imagePainter,
-            onDismissRequest = {
-                friendPictureBeingViewed.value = false
-            }
-        )
+            cameraLauncher = null,
+            canChangePicture = false
+        ) {
+            friendPictureBeingViewed.value = false
+        }
     }
 
     Row(

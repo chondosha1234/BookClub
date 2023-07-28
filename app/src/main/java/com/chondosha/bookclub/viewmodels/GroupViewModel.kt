@@ -52,8 +52,10 @@ class GroupViewModel(
         _group.value = repository.removeMember(groupId, userId)
     }
 
-    suspend fun setGroupPicture(groupId: UUID) {
-        _group.value = repository.setGroupPicture(groupId)
+    fun setGroupPicture(groupId: UUID, base64Image: String) {
+        viewModelScope.launch {
+            _group.value = repository.setGroupPicture(groupId, base64Image)
+        }
     }
 }
 

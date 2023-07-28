@@ -48,8 +48,10 @@ class ConversationViewModel(
         _messages.value = repository.getMessages(conversation.value!!.id)
     }
 
-    suspend fun setConversationPicture(conversationId: UUID) {
-        _conversation.value = repository.setConversationPicture(conversationId)
+    fun setConversationPicture(conversationId: UUID, base64Image: String) {
+        viewModelScope.launch {
+            _conversation.value = repository.setConversationPicture(conversationId, base64Image)
+        }
     }
 }
 

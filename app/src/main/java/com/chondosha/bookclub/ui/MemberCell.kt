@@ -49,10 +49,11 @@ fun MemberCell(
     if (memberPictureBeingViewed.value) {
         PictureDialog(
             imagePainter = imagePainter,
-            onDismissRequest = {
-                memberPictureBeingViewed.value = false
-            }
-        )
+            cameraLauncher = null,
+            canChangePicture = false
+        ) {
+            memberPictureBeingViewed.value = false
+        }
     }
 
     Row(

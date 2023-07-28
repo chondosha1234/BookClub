@@ -1,5 +1,6 @@
 package com.chondosha.bookclub.ui
 
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -33,7 +34,8 @@ fun GroupCell(
     onClickCell: () -> Unit,
 ) {
 
-    val groupId = group.toString()
+    val groupId = group.id.toString()
+    Log.d("group", "inside group Cell, groupid to string value: $groupId")
     val groupViewModel : GroupViewModel = viewModel(
         factory = GroupViewModelFactory(LocalGroupRepository.current, groupId)
     )

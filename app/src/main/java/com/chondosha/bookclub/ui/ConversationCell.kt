@@ -1,5 +1,7 @@
 package com.chondosha.bookclub.ui
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -11,15 +13,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.core.net.toUri
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
+import com.chondosha.bookclub.BitmapUtils.toBase64
+import com.chondosha.bookclub.LocalConversationRepository
+import com.chondosha.bookclub.LocalGroupRepository
 import com.chondosha.bookclub.R
 import com.chondosha.bookclub.api.models.Conversation
-import java.io.File
+import com.chondosha.bookclub.viewmodels.ConversationViewModel
+import com.chondosha.bookclub.viewmodels.ConversationViewModelFactory
+import com.chondosha.bookclub.viewmodels.GroupViewModel
+import com.chondosha.bookclub.viewmodels.GroupViewModelFactory
 
 @Composable
 fun ConversationCell(
@@ -27,6 +34,11 @@ fun ConversationCell(
     modifier: Modifier = Modifier,
     onClickCell: () -> Unit
 ) {
+
+    val conversationId = conversation.id.toString()
+    val conversationViewModel : ConversationViewModel = viewModel(
+        factory = ConversationViewModelFactory(LocalConversationRepository.current, conversationId)
+    )
 
     val imagePainter = if (conversation.picture != null) {
         rememberAsyncImagePainter(
@@ -37,15 +49,21 @@ fun ConversationCell(
         painterResource(R.drawable.no_picture)
     }
 
+    val cameraLauncher = rememberLauncherForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap ->
+        val base64Image = bitmap.toBase64()
+        conversationViewModel.setConversationPicture(conversation.id, base64Image)
+    }
+
     val conversationPictureBeingViewed = remember { mutableStateOf(false) }
 
     if (conversationPictureBeingViewed.value) {
         PictureDialog(
             imagePainter = imagePainter,
-            onDismissRequest = {
-                conversationPictureBeingViewed.value = false
-            }
-        )
+            cameraLauncher = cameraLauncher,
+            canChangePicture = true
+        ) {
+            conversationPictureBeingViewed.value = false
+        }
     }
 
     Row(

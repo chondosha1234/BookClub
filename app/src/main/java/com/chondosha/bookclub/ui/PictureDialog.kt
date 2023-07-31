@@ -21,7 +21,6 @@ fun PictureDialog(
     cameraLauncher: ManagedActivityResultLauncher<Void?, Bitmap?>?,
     canChangePicture: Boolean,
     onDismissRequest: () -> Unit,
-
     ) {
 
     Dialog(onDismissRequest = onDismissRequest) {

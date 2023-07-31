@@ -142,6 +142,7 @@ fun UserHomeScreen(
                 Log.d("Test", "Inside composable when block 0 selectedTab")
                 GroupList(
                     groups = groups,
+                    userHomeViewModel = userHomeViewModel,
                     onNavigateToGroup = onNavigateToGroup,
                     onNavigateToCreateGroup = onNavigateToCreateGroup,
                     modifier = Modifier
@@ -173,6 +174,7 @@ fun UserHomeScreen(
 @Composable
 fun GroupList(
     groups: List<Group>?,
+    userHomeViewModel: UserHomeViewModel,
     modifier: Modifier = Modifier,
     onNavigateToGroup: (groupId: UUID) -> Unit,
     onNavigateToCreateGroup: () -> Unit
@@ -192,6 +194,7 @@ fun GroupList(
                 items(groups) { group ->
                     GroupCell(
                         group = group,
+                        userHomeViewModel = userHomeViewModel,
                         onClickCell = { onNavigateToGroup(group.id) },
                     )
                 }

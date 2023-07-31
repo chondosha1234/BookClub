@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.currentComposer
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -25,17 +26,18 @@ import com.chondosha.bookclub.R
 import com.chondosha.bookclub.api.models.Group
 import com.chondosha.bookclub.viewmodels.GroupViewModel
 import com.chondosha.bookclub.viewmodels.GroupViewModelFactory
+import com.chondosha.bookclub.viewmodels.UserHomeViewModel
 
 
 @Composable
 fun GroupCell(
     group: Group,
+    userHomeViewModel: UserHomeViewModel,
     modifier: Modifier = Modifier,
     onClickCell: () -> Unit,
 ) {
 
     val groupId = group.id.toString()
-    Log.d("group", "inside group Cell, groupid to string value: $groupId")
     val groupViewModel : GroupViewModel = viewModel(
         factory = GroupViewModelFactory(LocalGroupRepository.current, groupId)
     )
@@ -63,6 +65,7 @@ fun GroupCell(
             canChangePicture = true
         ) {
             groupPictureBeingViewed.value = false
+            userHomeViewModel.updateGroups()
         }
     }
 

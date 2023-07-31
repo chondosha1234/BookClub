@@ -33,7 +33,6 @@ class UserHomeViewModel(
     init {
         viewModelScope.launch {
             _user.value = repository.getCurrentUser()
-            Log.d("picture", "value of user picture variable: ${_user.value!!.picture}")
             _groups.value = repository.getGroupList()
             _friends.value = repository.getFriendsList()
         }
@@ -69,6 +68,12 @@ class UserHomeViewModel(
 
     suspend fun logout(context: Context) {
         repository.logout(context)
+    }
+
+    fun updateGroups() {
+        viewModelScope.launch {
+            _groups.value = repository.getGroupList()
+        }
     }
 }
 

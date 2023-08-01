@@ -31,6 +31,7 @@ import com.chondosha.bookclub.viewmodels.GroupViewModelFactory
 @Composable
 fun ConversationCell(
     conversation: Conversation,
+    groupViewModel: GroupViewModel,
     modifier: Modifier = Modifier,
     onClickCell: () -> Unit
 ) {
@@ -39,11 +40,12 @@ fun ConversationCell(
     val conversationViewModel : ConversationViewModel = viewModel(
         factory = ConversationViewModelFactory(LocalConversationRepository.current, conversationId)
     )
+    val group = conversation.group
 
     val imagePainter = if (conversation.picture != null) {
         rememberAsyncImagePainter(
             model = conversation.picture,
-            placeholder = painterResource(R.drawable.no_picture)  // todo find image
+            placeholder = painterResource(R.drawable.no_picture)
         )
     } else {
         painterResource(R.drawable.no_picture)
@@ -63,6 +65,7 @@ fun ConversationCell(
             canChangePicture = true
         ) {
             conversationPictureBeingViewed.value = false
+            groupViewModel.updateConversations(group)
         }
     }
 

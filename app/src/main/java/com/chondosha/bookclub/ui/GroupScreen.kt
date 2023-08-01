@@ -116,6 +116,7 @@ fun GroupScreen(
                 ConversationList(
                     groupId = groupId.toString(),
                     conversations = conversations,
+                    groupViewModel = groupViewModel,
                     modifier = Modifier
                         .padding(4.dp)
                         .fillMaxWidth()
@@ -148,6 +149,7 @@ fun GroupScreen(
 fun ConversationList(
     groupId: String,
     conversations: List<Conversation>?,
+    groupViewModel: GroupViewModel,
     modifier: Modifier = Modifier,
     onNavigateToConversation: (conversationId: UUID) -> Unit,
     onNavigateToCreateConversation: (groupId: String) -> Unit
@@ -167,6 +169,7 @@ fun ConversationList(
                 items(conversations) { conversation ->
                     ConversationCell(
                         conversation = conversation,
+                        groupViewModel = groupViewModel,
                         onClickCell = { onNavigateToConversation(conversation.id) }
                     )
                 }

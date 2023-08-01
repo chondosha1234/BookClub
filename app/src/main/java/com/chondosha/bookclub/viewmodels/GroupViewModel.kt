@@ -58,6 +58,12 @@ class GroupViewModel(
             _group.value = repository.setGroupPicture(groupId, base64Image)
         }
     }
+
+    fun updateConversations(groupId: UUID) {
+        viewModelScope.launch {
+            _conversations.value = repository.getConversationList(groupId)
+        }
+    }
 }
 
 class GroupViewModelFactory(

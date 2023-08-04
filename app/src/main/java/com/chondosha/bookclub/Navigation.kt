@@ -88,6 +88,9 @@ fun Navigation(
         ) { backStackEntry ->
             GroupScreen(
                 groupId = backStackEntry.arguments?.getString("groupId"),
+                onNavigateToLogin = {
+                    navController.navigate("login")
+                },
                 onNavigateToConversation = { conversationId ->
                     navController.navigate("conversation/${conversationId}")
                 },
@@ -116,7 +119,10 @@ fun Navigation(
             arguments = listOf(navArgument("conversationId") {type = NavType.StringType} )
         ) { backStackEntry ->
             ConversationScreen(
-                conversationId = backStackEntry.arguments?.getString("conversationId")
+                conversationId = backStackEntry.arguments?.getString("conversationId"),
+                onNavigateToLogin = {
+                    navController.navigate("login")
+                }
             )
         }
         composable(

@@ -22,12 +22,14 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
 import com.chondosha.bookclub.LocalGroupRepository
+import com.chondosha.bookclub.LocalUserRepository
 import com.chondosha.bookclub.R
 import com.chondosha.bookclub.api.models.Conversation
 import com.chondosha.bookclub.api.models.User
 import com.chondosha.bookclub.viewmodels.GroupViewModel
 import com.chondosha.bookclub.viewmodels.GroupViewModelFactory
 import com.chondosha.bookclub.viewmodels.UserHomeViewModel
+import com.chondosha.bookclub.viewmodels.UserHomeViewModelFactory
 import java.io.File
 import java.util.*
 
@@ -36,9 +38,13 @@ import java.util.*
 fun GroupScreen(
     groupId: String?,
     modifier: Modifier = Modifier,
+    onNavigateToLogin: () -> Unit,
     onNavigateToConversation: (conversationId: UUID) -> Unit,
     onNavigateToCreateConversation: (groupId: String) -> Unit,
     onNavigateToAddMember: (groupId: UUID) -> Unit,
+    userHomeViewModel : UserHomeViewModel = viewModel(
+        factory = UserHomeViewModelFactory(LocalUserRepository.current)
+    ),
     groupViewModel : GroupViewModel = viewModel(
         factory = GroupViewModelFactory(LocalGroupRepository.current, groupId)
     )
@@ -84,7 +90,10 @@ fun GroupScreen(
                                 .size(36.dp)
                                 .clip(CircleShape)
                         )
-                        //OptionsMenu()
+                        OptionsMenu(
+                            userHomeViewModel = userHomeViewModel,
+                            onNavigateToLogin = onNavigateToLogin
+                        )
                     }
 
                 }

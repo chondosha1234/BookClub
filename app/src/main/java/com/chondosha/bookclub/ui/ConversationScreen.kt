@@ -18,16 +18,23 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.chondosha.bookclub.LocalConversationRepository
+import com.chondosha.bookclub.LocalUserRepository
 import com.chondosha.bookclub.R
 import com.chondosha.bookclub.api.models.Message
 import com.chondosha.bookclub.api.models.User
 import com.chondosha.bookclub.viewmodels.ConversationViewModel
 import com.chondosha.bookclub.viewmodels.ConversationViewModelFactory
+import com.chondosha.bookclub.viewmodels.UserHomeViewModel
+import com.chondosha.bookclub.viewmodels.UserHomeViewModelFactory
 
 @Composable
 fun ConversationScreen(
     conversationId: String?,
     modifier: Modifier = Modifier,
+    onNavigateToLogin: () -> Unit,
+    userHomeViewModel : UserHomeViewModel = viewModel(
+        factory = UserHomeViewModelFactory(LocalUserRepository.current)
+    ),
     conversationViewModel : ConversationViewModel = viewModel(
         factory = ConversationViewModelFactory(LocalConversationRepository.current, conversationId)
     )
@@ -57,7 +64,10 @@ fun ConversationScreen(
                     null
                 },
                 actions = {
-                    //OptionsMenu()
+                    OptionsMenu(
+                        userHomeViewModel = userHomeViewModel,
+                        onNavigateToLogin = onNavigateToLogin
+                    )
                 }
             )
         },

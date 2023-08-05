@@ -1,6 +1,7 @@
 package com.chondosha.bookclub
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,7 +20,9 @@ class MainActivity : ComponentActivity() {
         val context = applicationContext
         SharedPreferencesManager.changeNotificationCount(context, 0)
 
-        isLoggedIn = SharedPreferencesManager.isLoggedIn(context)
+        SharedPreferencesManager.initLoggedIn(context)
+        //isLoggedIn = SharedPreferencesManager.isLoggedIn(context)
+        //Log.d("login", "Inside main activity. isLoggedIn set as: $isLoggedIn")
 
         setContent {
             BookClubTheme {
@@ -29,7 +32,8 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
                    ProvideRepository {
-                       Navigation(isLoggedIn = isLoggedIn)
+                       //Navigation(isLoggedIn = isLoggedIn)
+                       Navigation()
                    }
                 }
             }

@@ -1,6 +1,9 @@
 package com.chondosha.bookclub
 
+import android.util.Log
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -9,6 +12,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.chondosha.bookclub.SharedPreferencesManager.isLoggedIn
 import com.chondosha.bookclub.ui.*
 import com.chondosha.bookclub.viewmodels.UserHomeViewModel
 import com.chondosha.bookclub.viewmodels.UserHomeViewModelFactory
@@ -17,18 +21,22 @@ import com.chondosha.bookclub.viewmodels.UserHomeViewModelFactory
 fun Navigation(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    isLoggedIn: Boolean,
-    startDestination: String = if (isLoggedIn) "user_home" else "login"
+    //isLoggedIn: Boolean,
+    //startDestination: String = if (isLoggedIn) "user_home" else "login"
 ) {
+    val isLoggedIn by SharedPreferencesManager.isLoggedIn.collectAsState()
+    val startDestination: String = if (isLoggedIn) "user_home" else "login"
+
     NavHost(
         modifier = modifier,
         navController = navController,
         startDestination = startDestination
     ) {
         composable("login"){
-            if (isLoggedIn) {
-                navController.navigate("user_home")
-            } else {
+            //Log.d("login", "inside nav login composable path: $isLoggedIn")
+            //if (isLoggedIn) {
+                //navController.navigate("user_home")
+            //} else {
                 LoginScreen(
                     onNavigateToHome = {
                         navController.navigate("user_home")
@@ -37,7 +45,7 @@ fun Navigation(
                         navController.navigate("create_account")
                     }
                 )
-            }
+            //}
         }
         composable("create_account") {
             CreateAccountScreen(

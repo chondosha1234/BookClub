@@ -11,7 +11,7 @@ class UserRepository {
 
     private var messageServerApi: MessageServerApi = ApiServiceFactory.createMessageServerApi()
 
-    suspend fun logout(context: Context): Unit {
+    suspend fun logout(context: Context) {
         messageServerApi.logout()
         SharedPreferencesManager.logout(context)
     }

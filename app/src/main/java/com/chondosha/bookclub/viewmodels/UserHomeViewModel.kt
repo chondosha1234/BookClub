@@ -66,8 +66,10 @@ class UserHomeViewModel(
         }
     }
 
-    suspend fun logout(context: Context) {
-        repository.logout(context)
+    fun logout(context: Context) {
+        viewModelScope.launch {
+            repository.logout(context)
+        }
     }
 
     fun updateGroups() {

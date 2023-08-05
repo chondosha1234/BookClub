@@ -20,7 +20,7 @@ fun OptionsMenu(
     modifier: Modifier = Modifier,
 ) {
 
-    val coroutineScope = rememberCoroutineScope()
+    //val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
 
     var expanded by remember { mutableStateOf(false) }
@@ -46,10 +46,8 @@ fun OptionsMenu(
         }
 
         DropdownMenuItem(onClick = {
-            coroutineScope.launch {
-                userHomeViewModel.logout(context)
-                onNavigateToLogin()
-            }
+            userHomeViewModel.logout(context)
+            onNavigateToLogin()
         }) {
             Text(stringResource(R.string.logout))
         }
